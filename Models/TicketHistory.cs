@@ -6,9 +6,12 @@ namespace DABugTracker.Models
     {
         public int Id { get; set; }
 
-        public string PropertyName { get; set; }
+        [Required]
+        [Display(Name = "Property Name")]
+        public string? PropertyName { get; set; }
 
-        public string Description { get; set; }
+        [Required]
+        public string? Description { get; set; }
 
         [DataType(DataType.DateTime)]
         public DateTime Created { get; set; }

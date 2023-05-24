@@ -16,12 +16,15 @@ namespace DABugTracker.Models
         public Guid CompanyToken { get; set; }
 
         [Required]
+        [Display(Name = "Invitee Email")]
         public string? InviteeEmial { get; set; }
 
         [Required]
+        [Display(Name = "Invitee First Name")]
         public string? InviteeFirstName { get; set; }
 
         [Required]
+        [Display(Name = "Invitee Last Name")]
         public string? InviteeLastName { get; set; }
 
         public string? Message { get; set; }

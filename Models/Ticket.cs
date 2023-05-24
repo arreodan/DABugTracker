@@ -6,6 +6,7 @@ namespace DABugTracker.Models
     {
         public int Id { get; set; }
         [Required]
+        [Display(Name = "Ticket Title")]
         public string? Title { get; set; }
         [Required]
         public string? Description { get; set; }

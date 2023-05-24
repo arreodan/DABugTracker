@@ -10,9 +10,11 @@ namespace DABugTracker.Models
         public int Id { get; set; }
 
         [Required]
+        [Display(Name = "Project Name")]
         public string? Name { get; set; }
 
         [Required]
+        [Display(Name = "Project Description")]
         public string? Description { get; set; }
 
         [DataType(DataType.DateTime)]
