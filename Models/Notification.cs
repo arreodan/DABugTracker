@@ -29,11 +29,13 @@ namespace DABugTracker.Models
         public int TicketId { get; set; }
 
         public virtual Ticket? Ticket { get; set; }
-        
+
         // Foreign Keys 1 to 1 
+        [Required]
         public string? SenderId { get; set; }
         public virtual BTUser? Sender { get; set; }
-        
+
+        [Required]
         public string? RecipientId { get; set; }
         public virtual BTUser? Recipient { get; set; }
     }
