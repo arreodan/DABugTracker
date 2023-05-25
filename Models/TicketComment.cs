@@ -17,6 +17,7 @@ namespace DABugTracker.Models
         public int TicketId { get; set; }
         public virtual Ticket? Ticket { get; set; }
 
+        [Required]
         public string? UserId { get; set; }
         public virtual BTUser? User { get; set; }
     }

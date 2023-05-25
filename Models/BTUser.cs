@@ -22,6 +22,7 @@ namespace DABugTracker.Models
 
 
         // Image Properties 
+        [NotMapped]
         public IFormFile? ImageFormFile { get; set; }
 
         public byte[]? ImageFileData { get; set; }
@@ -30,6 +31,7 @@ namespace DABugTracker.Models
 
         // Navigation Properties 
         // Foreign Key
+        [Required]
         public int? CompanyId { get; set; }
         public virtual Company? Company { get; set; }
 

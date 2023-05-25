@@ -13,7 +13,7 @@ namespace DABugTracker.Models
         public string? Message { get; set; }
 
         [DataType(DataType.DateTime)]
-        public DateTime CreatedDate { get; set; }
+        public DateTime Created { get; set; }
 
         public int NotificationTypeId { get; set; }
         public bool HasBeenViewed { get; set; }

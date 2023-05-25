@@ -1,5 +1,6 @@
 ﻿using Azure;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DABugTracker.Models
 {
@@ -12,9 +13,10 @@ namespace DABugTracker.Models
         public string? Name { get; set; }
         public string? Description { get; set; }
 
-        public IFormFile? Imagefile { get; set; }
-        public byte[]? ImageData { get; set; }
-        public string? ImageType { get; set; }
+        [NotMapped]
+        public IFormFile? ImageFormFile { get; set; }
+        public byte[]? ImageFileData { get; set; }
+        public string? ImageFileType { get; set; }
 
         // Navigation Properties 
         public virtual ICollection<Project> Projects { get; set; } = new HashSet<Project>();
