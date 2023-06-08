@@ -1,0 +1,144 @@
+﻿@model DABugTracker.Models.Project
+@using DABugTracker.Services.Interfaces
+@using DABugTracker.Models.Enums
+
+@inject IBTProjectService _projectService;
+@inject IBTTicketService _ticketService;
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div class="p-3 d-flex flex-column">
+    <h1>Project Details</h1>
+    <div class="row g-3 mb-3">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header d-flex">
+                    @* PROJECT'S STATUS *@
+                    @if (Model.Archived == true)
+                    {
+                        <h5>Archived</h5>
+                    }
+                    else if (@DateTime.Now > @Model.EndDate)
+                    {
+                        <h5>Overdue</h5>
+                    }
+                    else
+                    {
+                        <h5>In Progress</h5>
+                    }
+                    @*<h5>Archived / In Progress / Overdue</h5>*@
+                    @* ONLY SHOW THESE BUTTONS IF THEY'RE ALLOWED TO DO THESE ACTIONS *@
+                    @if (User.IsInRole(nameof(BTRoles.Admin)) || User.IsInRole(nameof(BTRoles.ProjectManager)))
+                    {
+                        <div class="ms-auto">
+                            <a class="btn btn-sm btn-secondary" href="#">Edit</a>
+                            <a class="btn btn-sm btn-secondary" href="#">Archive / Restore</a>
+                        </div>
+                    }
+                </div>
+                <div class="card-body">
+                    @* PROJECT NAME GOES HERE *@
+                    <h5 class="card-title">@Model.Name</h5>
+                    <h6 class="card-subtitle mb-4 text-muted">@Model.StartDate.ToString("MM/dd/yyyy") - @Model.EndDate.ToString("MM/dd/yyyy")</h6>
+                    <p class="card-text">
+                        @* PROJECT DESCRIPTION GOES HERE *@
+                        @Model.Description
+                    </p>
+                </div>
+                @if (await _projectService.GetProjectManagerAsync(Model.Id, Model.CompanyId) != null)
+                {
+                    <div class="card-footer fw-bold lead">
+                        Project Manager:
+                        @((await _projectService.GetProjectManagerAsync(Model.Id, Model.CompanyId))!.FullName)
+                    </div>
+                }
+                else
+                {
+                    <div class="card-footer fw-bold lead">
+                        Project Manager:
+                        Unassigned
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="row">
+                <div class="col-12 col-lg-6">
+                    <div class="card h-100">
+                        @* DISPLAY LIST OF DEVELOPERS ON PROJECT *@
+                        <div class="card-header">
+                            Developers
+                        </div>
+                        <div class="card-body">
+                            <ul>
+                                @foreach (BTUser member in await _projectService.GetProjectMembersByRoleAsync(Model.Id, nameof(BTRoles.Developer), Model.CompanyId))
+                                {
+                                    <li>@member.FullName</li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6">
+                    <div class="card h-100">
+                        @* DISPLAY LIST OF SUBMITTERS ON PROJECT *@
+                        <div class="card-header">
+                            Submitters
+                        </div>
+                        <div class="card-body">
+                            <ul>
+                                @foreach (BTUser member in await _projectService.GetProjectMembersByRoleAsync(Model.Id, nameof(BTRoles.Submitter), Model.CompanyId))
+                                {
+                                    <li>@member.FullName</li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @*Fix this*@
+        @if (await _projectService.GetProjectManagerAsync(Model.Id, Model.CompanyId) != null || (User.IsInRole(nameof(BTRoles.Admin))))
+        {
+            <div class="col-12">
+                <div class="d-flex flex-column align-items-stretch align-items-lg-end">
+                    <a href="#" class="btn btn-secondary btn-sm">
+                        Manage Project Members
+                    </a>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="table-responsive mt-4">
+        <table class="table table-hover table-bordered text-center no-wrap" id="ticketTable">
+            <thead>
+                <tr>
+            <th>Ticket Title</th>
+            <th>Description</th>
+            <th>Ticket Status</th>
+                </tr>
+            </thead>
+            @* TICKETS TABLE *@
+
+            @foreach (Ticket ticket in await _ticketService.GetTicketsByProjectAsync(Model.CompanyId, Model.Id))
+            {
+                <tr>
+                    <td>
+                        @ticket.Title
+                    </td>
+                    <td>
+                        @ticket.Description
+                    </td>
+                    <td>
+                        @ticket.TicketStatus!.Name
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+    <div class="mt-5 ms-auto">
+        <a asp-action="Index" class="btn btn-dark">Back to List</a>
+    </div>
+</div>

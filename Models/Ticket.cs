@@ -37,7 +37,7 @@ namespace DABugTracker.Models
         public int TicketPriorityId { get; set; }
         public virtual TicketPriority? TicketPriority { get; set; }
 
-        [Required]
+
         public string? DeveloperUserId { get; set; }
         public virtual BTUser? DeveloperUser { get; set; }
 

@@ -26,9 +26,11 @@ namespace DABugTracker.Models
         [DataType(DataType.DateTime)]
         public DateTime EndDate { get; set; }
 
+        [Display(Name = "Project Priority")]
         public int ProjectPriorityId { get; set; }
 
         [NotMapped]
+        [Display(Name = "Project Image")]
         public IFormFile? ImageFormFile { get; set; }
         public byte[]? ImageFileData { get; set; }
         public string? ImageFileType { get; set; }
@@ -41,7 +43,7 @@ namespace DABugTracker.Models
 
 
         public virtual ProjectPriority? ProjectPriority { get; set; }
-        public virtual ICollection<BTUser> Members { get; set; } = new HashSet<BTUser>(); // Unsure about this one
+        public virtual ICollection<BTUser> Members { get; set; } = new HashSet<BTUser>(); 
         public virtual ICollection<Ticket> Tickets { get; set; } = new HashSet<Ticket>();
     }
 }
