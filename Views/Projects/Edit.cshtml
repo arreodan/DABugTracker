@@ -50,7 +50,7 @@
                 <span asp-validation-for="ProjectPriorityId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <img src="@_BTFileService.ConvertByteArrayToFile(Model.ImageFileData, Model.ImageFileType, DefaultImage.ProjectImage)" class="img-fluid" id="projectImage" />
+                <img src="@_BTFileService.(Model.ImageFileData, Model.ImageFileType, DefaultImage.ProjectImage)" class="img-fluid" id="projectImage" />
                 <label asp-for="ImageFormFile" class="control-label">Project Image</label>
                 <input type="file" asp-for="ImageFormFile" class="form-control" accept=".png,.jpeg,.jpg,.gif,.svg"
                        onchange="document.getElementById('projectImage').src = window.URL.createObjectURL(this.files[0])" />

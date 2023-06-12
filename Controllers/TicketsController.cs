@@ -19,6 +19,7 @@ using Microsoft.AspNetCore.Authorization;
 using System.Data;
 using System.ComponentModel.Design;
 using DABugTracker.Services;
+using System.IO;
 
 namespace DABugTracker.Controllers
 {
@@ -318,6 +319,35 @@ namespace DABugTracker.Controllers
                 await _ticketService.ArchiveTicketAsync(ticket, User.Identity!.GetCompanyId());
             }
             return RedirectToAction(nameof(AllTickets));
+        }
+
+        public async Task<IActionResult> ShowFile(int id)
+        {
+            TicketAttachment ticketAttachment = await _ticketService.GetTicketAttachmentByIdAsync(id);
+            string fileName = ticketAttachment.FileName;
+            byte[] fileData = ticketAttachment.FileData;
+            string ext = Path.GetExtension(fileName).Replace(".", "");
+
+            Response.Headers.Add("Content-Disposition", $"inline; filename={fileName}");
+            return File(fileData, $"application/{ext}");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateTicketComment([Bind("Id, Comment, TicketId")] TicketComment ticketComment)
+        {
+            ModelState.Remove("UserId");
+
+            if (ModelState.IsValid)
+            {
+                ticketComment.Created = DateTime.UtcNow;
+                ticketComment.UserId = _userManager.GetUserId(User);
+
+                await _ticketService.AddTicketCommentAsync(ticketComment);
+            }
+            
+                return RedirectToAction("Details", new { id = ticketComment.TicketId });
+
         }
 
     }

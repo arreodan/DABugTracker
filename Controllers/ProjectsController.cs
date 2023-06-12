@@ -196,7 +196,7 @@ namespace DABugTracker.Controllers
 
 
 
-        public async Task<IActionResult> ArchivedProjectsIndex()// tested 
+        public async Task<IActionResult> ArchivedProjects()// tested 
         {
             int companyId = User.Identity!.GetCompanyId();
 

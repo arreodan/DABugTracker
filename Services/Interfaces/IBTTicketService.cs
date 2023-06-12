@@ -19,5 +19,8 @@ namespace DABugTracker.Services.Interfaces
         Task<Ticket?> GetTicketAsNoTrackingAsync(int ticketId, int companyId);
         Task<List<Ticket>> GetTicketsByProjectAsync(int companyId, int projectId);
         public Task AddTicketAttachmentAsync(TicketAttachment ticketAttachment);
+        public Task<TicketAttachment> GetTicketAttachmentByIdAsync(int ticketAttachmentId);
+
+        Task AddTicketCommentAsync(TicketComment comment);
     }
 }

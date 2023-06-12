@@ -59,9 +59,7 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Description)
                 </td>
-                <td>
-                    <img class="img-fluid" src="@BTFileService.ConvertByteArrayToFile(item.ImageFileData, item.ImageFileType, DefaultImage.ProjectImage)">
-                </td>
+
                 <td>
                     @Html.DisplayFor(modelItem => item.Created)
                 </td>

@@ -4,141 +4,178 @@
 
 @inject IBTProjectService _projectService;
 @inject IBTTicketService _ticketService;
+@inject IBTRolesService _roleService;
 
 @{
     ViewData["Title"] = "Details";
 }
 
-<div class="p-3 d-flex flex-column">
-    <h1>Project Details</h1>
-    <div class="row g-3 mb-3">
-        <div class="col-12">
+
+<!-- Start Content-->
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col-md-8">
             <div class="card">
-                <div class="card-header d-flex">
-                    @* PROJECT'S STATUS *@
-                    @if (Model.Archived == true)
-                    {
-                        <h5>Archived</h5>
-                    }
-                    else if (@DateTime.Now > @Model.EndDate)
-                    {
-                        <h5>Overdue</h5>
-                    }
-                    else
-                    {
-                        <h5>In Progress</h5>
-                    }
-                    @*<h5>Archived / In Progress / Overdue</h5>*@
-                    @* ONLY SHOW THESE BUTTONS IF THEY'RE ALLOWED TO DO THESE ACTIONS *@
-                    @if (User.IsInRole(nameof(BTRoles.Admin)) || User.IsInRole(nameof(BTRoles.ProjectManager)))
-                    {
-                        <div class="ms-auto">
-                            <a class="btn btn-sm btn-secondary" href="#">Edit</a>
-                            <a class="btn btn-sm btn-secondary" href="#">Archive / Restore</a>
+                <div class="card-body task-detail">
+                    <div class="dropdown float-end">
+                        <div class="task-tags mt-2">
+                            @* PROJECT'S STATUS *@
+                            @if (Model.Archived == true)
+                            {
+                                <h5 class="text-muted">Archived</h5>
+                            }
+                            else if (@DateTime.Now > @Model.EndDate)
+                            {
+                                <h5 class="text-danger">Overdue</h5>
+                            }
+                            else
+                            {
+                                <h5 class="text-success">In Progress</h5>
+                            }
+                            @*<h5>Archived / In Progress / Overdue</h5>*@
                         </div>
-                    }
-                </div>
-                <div class="card-body">
-                    @* PROJECT NAME GOES HERE *@
-                    <h5 class="card-title">@Model.Name</h5>
-                    <h6 class="card-subtitle mb-4 text-muted">@Model.StartDate.ToString("MM/dd/yyyy") - @Model.EndDate.ToString("MM/dd/yyyy")</h6>
-                    <p class="card-text">
-                        @* PROJECT DESCRIPTION GOES HERE *@
+                    </div>
+
+                    <div class="d-block mb-3">
+                        <h6 class="text-muted font-600">Project Manager:</h6>
+                        <div class="flex-grow-1">
+                            @if (await _projectService.GetProjectManagerAsync(Model.Id, Model.CompanyId) != null)
+                            {
+                                <h4 class="media-heading mt-0">
+                                    @((await _projectService.GetProjectManagerAsync(Model.Id, Model.CompanyId))!.FullName)
+                                </h4>
+                            }
+                            else
+                            {
+                                <h4 class="media-heading mt-0">
+                                    Unassigned
+                                </h4>
+                            }
+                        </div>
+                    </div>
+
+                    <h4>@Model.Name</h4>
+
+                    <p class="text-muted">
                         @Model.Description
                     </p>
-                </div>
-                @if (await _projectService.GetProjectManagerAsync(Model.Id, Model.CompanyId) != null)
-                {
-                    <div class="card-footer fw-bold lead">
-                        Project Manager:
-                        @((await _projectService.GetProjectManagerAsync(Model.Id, Model.CompanyId))!.FullName)
-                    </div>
-                }
-                else
-                {
-                    <div class="card-footer fw-bold lead">
-                        Project Manager:
-                        Unassigned
-                    </div>
-                }
-            </div>
-        </div>
-        <div class="col-12">
-            <div class="row">
-                <div class="col-12 col-lg-6">
-                    <div class="card h-100">
-                        @* DISPLAY LIST OF DEVELOPERS ON PROJECT *@
-                        <div class="card-header">
-                            Developers
-                        </div>
-                        <div class="card-body">
-                            <ul>
-                                @foreach (BTUser member in await _projectService.GetProjectMembersByRoleAsync(Model.Id, nameof(BTRoles.Developer), Model.CompanyId))
-                                {
-                                    <li>@member.FullName</li>
-                                }
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-lg-6">
-                    <div class="card h-100">
-                        @* DISPLAY LIST OF SUBMITTERS ON PROJECT *@
-                        <div class="card-header">
-                            Submitters
-                        </div>
-                        <div class="card-body">
-                            <ul>
-                                @foreach (BTUser member in await _projectService.GetProjectMembersByRoleAsync(Model.Id, nameof(BTRoles.Submitter), Model.CompanyId))
-                                {
-                                    <li>@member.FullName</li>
-                                }
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        @*Fix this*@
-        @if (await _projectService.GetProjectManagerAsync(Model.Id, Model.CompanyId) != null || (User.IsInRole(nameof(BTRoles.Admin))))
-        {
-            <div class="col-12">
-                <div class="d-flex flex-column align-items-stretch align-items-lg-end">
-                    <a href="#" class="btn btn-secondary btn-sm">
-                        Manage Project Members
-                    </a>
-                </div>
-            </div>
-        }
-    </div>
-    <div class="table-responsive mt-4">
-        <table class="table table-hover table-bordered text-center no-wrap" id="ticketTable">
-            <thead>
-                <tr>
-            <th>Ticket Title</th>
-            <th>Description</th>
-            <th>Ticket Status</th>
-                </tr>
-            </thead>
-            @* TICKETS TABLE *@
 
+                    <div class="row task-dates mb-0 mt-2">
+                        <div class="col-lg-6">
+                            <h5 class="font-600 m-b-5">Start Date</h5>
+                            <p>@Model.StartDate.ToString("dd MMMM yyyy")<small class="text-muted">@Model.StartDate.ToString("h:mm tt")</small></p>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <h5 class="font-600 m-b-5">Due Date</h5>
+                            <p>@Model.EndDate.ToString("dd MMMM yyyy")<small class="text-muted">@Model.EndDate.ToString("h:mm tt")</small></p>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="attached-files mt-3">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="text-end">
+                                    <a asp-controller="projects" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-success waves-effect waves-light me-1">
+                                        Edit
+                                    </a>
+                                    <a asp-controller="projects" asp-action="Archive" asp-route-id="@Model.Id"
+                                       class="btn btn-light waves-effect">
+                                        Archive / Unarchive
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
             @foreach (Ticket ticket in await _ticketService.GetTicketsByProjectAsync(Model.CompanyId, Model.Id))
             {
-                <tr>
-                    <td>
-                        @ticket.Title
-                    </td>
-                    <td>
-                        @ticket.Description
-                    </td>
-                    <td>
-                        @ticket.TicketStatus!.Name
-                    </td>
-                </tr>
+                <div class="card">
+                    <div class="card-body task-detail">
+                        <div class="d-block mb-3">
+                            <div class="flex-grow-1">
+                                <h4>@ticket.Title</h4>
+                            </div>
+                        </div>
+                        <h5 class="font-600 m-b-5">Ticket Description</h5>
+                        <p class="text-muted">
+                            @ticket.Description
+                        </p>
+
+                        <h5 class="font-600 m-b-5">Ticket Status</h5>
+                        <p class="text-muted">
+                            @ticket.TicketStatus!.Name
+                        </p>
+                        <div class="">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="text-end">
+                                        <button type="submit" class="btn btn-success waves-effect waves-light me-1">
+                                            Details
+                                        </button>
+                                        <button type="button"
+                                                class="btn btn-light waves-effect">
+                                            Archive / Unarchive
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
             }
-        </table>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    @*TODO: Only PM and admin can edit project members*@
+                    <div class="dropdown float-end">
+                        <a asp-controller="projects" asp-action="AssignMember" asp-route-id="@Model.Id" class=" arrow-none card-drop">
+                            <i class="bi bi-person-plus"></i>
+                        </a>
+                    </div>
+
+                    <h4 class="header-title mt-0 mb-3">Project Members (@Model.Members.Count())</h4>
+
+                    <div>
+                        <h4 class="header-title mt-0 mb-3">Project Manager</h4>
+                        @foreach (BTUser member in await _projectService.GetProjectMembersByRoleAsync(Model.Id, nameof(BTRoles.ProjectManager), Model.CompanyId))
+                        {
+                            <div class="d-flex mb-3 member-card">
+                                <div class="flex-grow-1">
+                                    <h5 class="mt-0">@member.FullName</h5>
+                                    <p class="font-13 text-muted mb-0">
+                                        <strong>Project Manager</strong>
+                                    </p>
+                                    <a href="" class="text-primary font-13">@member.Email</a>
+                                </div>
+                            </div>
+                        }
+                        <h4 class="header-title mt-0 mb-3">Developers</h4>
+                        @foreach (BTUser member in await _projectService.GetProjectMembersByRoleAsync(Model.Id, nameof(BTRoles.Developer), Model.CompanyId))
+                        {
+                            <div class="d-flex mb-3 member-card">
+                                <div class="flex-grow-1">
+                                    <h5 class="mt-0">@member.FullName</h5>
+                                    <p class="font-13 text-muted mb-0">
+                                        <strong>Developer</strong>
+                                    </p>
+                                    <a href="" class="text-primary font-13">@member.Email</a>
+                                </div>
+                            </div>
+                        }
+                        <h4 class="header-title mt-0 mb-3">Submitters</h4>
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- end col -->
     </div>
-    <div class="mt-5 ms-auto">
-        <a asp-action="Index" class="btn btn-dark">Back to List</a>
-    </div>
-</div>
+    <!-- end row -->
+
+</div> <!-- container -->

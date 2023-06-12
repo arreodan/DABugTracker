@@ -1,0 +1,114 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - DABugTracker</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/DABugTracker.styles.css" asp-append-version="true" />
+    <!-- Plugins css -->
+    <link href="assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" />
+    <link href="assets/libs/bootstrap-tagsinput/bootstrap-tagsinput.css" rel="stylesheet" />
+
+    <link href="assets/libs/multiselect/css/multi-select.css" rel="stylesheet" type="text/css" />
+    <link href="assets/libs/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
+    <link href="assets/libs/selectize/css/selectize.bootstrap3.css" rel="stylesheet" type="text/css" />
+
+    <!-- App css -->
+
+    <link href="~/css/app.css" rel="stylesheet" type="text/css" id="app-style" />
+
+    <!-- icons -->
+    <link href="~/css/icons.min.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">DABugTracker</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Company" asp-action="Index">Company</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link text-dark dropdown-toggle" data-bs-toggle="dropdown" asp-controller="Projects" asp-action="Index">Projects</a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    @*
+                                    This link should be shown for everyone except admins
+                                    All projects this user is currently a member of
+                                    *@
+                                    <a class="dropdown-item" asp-controller="Projects" asp-action="MyProjects">My Projects</a>
+                                </li>
+                                <li>
+                                    @* All (unarchived) projects in this company *@
+                                    <a class="dropdown-item" asp-controller="Projects" asp-action="Index">All Projects</a>
+                                </li>
+                                <li>
+                                    @* Archived projects in this company *@
+                                    <a class="dropdown-item" asp-controller="Projects" asp-action="ArchivedProjectsIndex">Archived Projects</a>
+                                </li>
+                                <li>
+                                    @* Projects with no PM *@
+                                    <a class="dropdown-item" asp-controller="Projects" asp-action="UnassignedProjects">Unassigned Projects</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link text-dark dropdown-toggle" data-bs-toggle="dropdown" asp-area="" asp-controller="Tickets" asp-action="Index">Tickets</a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    @*
+                                    Admins -> this link does not appear
+                                    PMs -> all tickets for their projects
+                                    Developers -> all tickets where they are the DeveloperUser or SubmitterUser
+                                    Submitters -> all tickets where they are the SubmitterUser
+                                    *@
+                                    <a class="dropdown-item" asp-controller="Tickets" asp-action="MyTickets">My Tickets</a>
+                                </li>
+                                <li>
+                                    @* All (unarchived) tickets in this company *@
+                                    <a class="dropdown-item" asp-controller="Tickets" asp-action="AllTickets">All Tickets</a>
+                                </li>
+                                <li>
+                                    @* Archived tickets in this company *@
+                                    <a class="dropdown-item" asp-controller="Tickets" asp-action="ArchivedTickets">Archived Tickets</a>
+                                </li>
+                                <li>
+                                    @* Tickets with no developer assigned *@
+                                    <a class="dropdown-item" asp-controller="Tickets" asp-action="UnassignedTickets">Unassigned Tickets</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <partial name="_LoginPartial" />
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2023 - DABugTracker - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

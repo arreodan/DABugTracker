@@ -94,6 +94,9 @@ namespace DABugTracker.Services
                                                .Include(t => t.TicketPriority)
                                                .Include(t => t.TicketStatus)
                                                .Include(t => t.TicketType)
+                                               .Include(t => t.Comments)
+                                               .Include(t => t.Attachments)
+                                               .Include(t => t.History)
                                                .FirstOrDefaultAsync(m => m.Id == ticketId);
 
                 return ticket!;
@@ -322,6 +325,36 @@ namespace DABugTracker.Services
             try
             {
                 await _context.AddAsync(ticketAttachment);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task<TicketAttachment> GetTicketAttachmentByIdAsync(int ticketAttachmentId)
+        {
+            try
+            {
+                TicketAttachment? ticketAttachment = await _context.TicketAttachments
+                                                                  .Include(t => t.BTUser)
+                                                                  .FirstOrDefaultAsync(t => t.Id == ticketAttachmentId);
+                return ticketAttachment;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task AddTicketCommentAsync(TicketComment comment)
+        {
+            try
+            {
+                await _context.AddAsync(comment);
                 await _context.SaveChangesAsync();
             }
             catch (Exception)
