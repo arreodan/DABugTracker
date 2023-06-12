@@ -15,6 +15,7 @@
 <div class="container-fluid">
 
     <div class="row">
+        <h1>Project Details</h1>
         <div class="col-md-8">
             <div class="card">
                 <div class="card-body task-detail">
@@ -55,7 +56,7 @@
                         </div>
                     </div>
 
-                    <h4>@Model.Name</h4>
+                    <h2>@Model.Name</h2>
 
                     <p class="text-muted">
                         @Model.Description
@@ -63,12 +64,12 @@
 
                     <div class="row task-dates mb-0 mt-2">
                         <div class="col-lg-6">
-                            <h5 class="font-600 m-b-5">Start Date</h5>
+                            <h4 class="font-600 m-b-5">Start Date</h4>
                             <p>@Model.StartDate.ToString("dd MMMM yyyy")<small class="text-muted">@Model.StartDate.ToString("h:mm tt")</small></p>
                         </div>
 
                         <div class="col-lg-6">
-                            <h5 class="font-600 m-b-5">Due Date</h5>
+                            <h4 class="font-600 m-b-5">Due Date</h4>
                             <p>@Model.EndDate.ToString("dd MMMM yyyy")<small class="text-muted">@Model.EndDate.ToString("h:mm tt")</small></p>
                         </div>
                     </div>
@@ -91,6 +92,7 @@
 
                 </div>
             </div>
+            <h3>Tickets</h3>
             @foreach (Ticket ticket in await _ticketService.GetTicketsByProjectAsync(Model.CompanyId, Model.Id))
             {
                 <div class="card">
