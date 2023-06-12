@@ -9,78 +9,7 @@
     <DockerfileContext>.</DockerfileContext>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Content Include="wwwroot\lib\pdfmake\node_modules\iconv-lite\encodings\tables\big5-added.json" />
-    <Content Include="wwwroot\lib\pdfmake\node_modules\iconv-lite\encodings\tables\cp936.json" />
-    <Content Include="wwwroot\lib\pdfmake\node_modules\iconv-lite\encodings\tables\cp949.json" />
-    <Content Include="wwwroot\lib\pdfmake\node_modules\iconv-lite\encodings\tables\cp950.json" />
-    <Content Include="wwwroot\lib\pdfmake\node_modules\iconv-lite\encodings\tables\eucjp.json" />
-    <Content Include="wwwroot\lib\pdfmake\node_modules\iconv-lite\encodings\tables\gb18030-ranges.json" />
-    <Content Include="wwwroot\lib\pdfmake\node_modules\iconv-lite\encodings\tables\gbk-added.json" />
-    <Content Include="wwwroot\lib\pdfmake\node_modules\iconv-lite\encodings\tables\shiftjis.json" />
-    <Content Include="wwwroot\lib\treeview\node_modules\jquery\AUTHORS.txt" />
-    <Content Include="wwwroot\lib\treeview\node_modules\jquery\external\sizzle\LICENSE.txt" />
-    <Content Include="wwwroot\lib\treeview\node_modules\jquery\LICENSE.txt" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="wwwroot\lib\gulp-minify\node_modules\arr-diff\index.js" />
-    <None Include="wwwroot\lib\gulp-minify\node_modules\arr-union\index.js" />
-    <None Include="wwwroot\lib\gulp-minify\node_modules\array-slice\index.js" />
-    <None Include="wwwroot\lib\gulp-minify\node_modules\extend-shallow\index.js" />
-    <None Include="wwwroot\lib\gulp-minify\node_modules\kind-of\index.js" />
-    <None Include="wwwroot\lib\gulp-minify\node_modules\plugin-error\index.js" />
-    <None Include="wwwroot\lib\gulp-rtlcss\node_modules\postcss\lib\at-rule.js" />
-    <None Include="wwwroot\lib\gulp-rtlcss\node_modules\postcss\lib\comment.js" />
-    <None Include="wwwroot\lib\gulp-rtlcss\node_modules\postcss\lib\container.js" />
-    <None Include="wwwroot\lib\gulp-rtlcss\node_modules\postcss\lib\css-syntax-error.js" />
-    <None Include="wwwroot\lib\gulp-rtlcss\node_modules\postcss\lib\declaration.js" />
-    <None Include="wwwroot\lib\gulp-rtlcss\node_modules\postcss\lib\input.js" />
-    <None Include="wwwroot\lib\gulp-rtlcss\node_modules\postcss\lib\lazy-result.js" />
-    <None Include="wwwroot\lib\gulp-rtlcss\node_modules\postcss\lib\list.js" />
-    <None Include="wwwroot\lib\gulp-rtlcss\node_modules\postcss\lib\map-generator.js" />
-    <None Include="wwwroot\lib\gulp-rtlcss\node_modules\postcss\lib\node.js" />
-    <None Include="wwwroot\lib\gulp-rtlcss\node_modules\postcss\lib\parse.js" />
-    <None Include="wwwroot\lib\gulp-rtlcss\node_modules\postcss\lib\parser.js" />
-    <None Include="wwwroot\lib\gulp-rtlcss\node_modules\postcss\lib\postcss.js" />
-    <None Include="wwwroot\lib\gulp-rtlcss\node_modules\postcss\lib\previous-map.js" />
-    <None Include="wwwroot\lib\gulp-rtlcss\node_modules\postcss\lib\processor.js" />
-    <None Include="wwwroot\lib\gulp-rtlcss\node_modules\postcss\lib\result.js" />
-    <None Include="wwwroot\lib\gulp-rtlcss\node_modules\postcss\lib\root.js" />
-    <None Include="wwwroot\lib\gulp-rtlcss\node_modules\postcss\lib\rule.js" />
-    <None Include="wwwroot\lib\gulp-rtlcss\node_modules\postcss\lib\stringifier.js" />
-    <None Include="wwwroot\lib\gulp-rtlcss\node_modules\postcss\lib\stringify.js" />
-    <None Include="wwwroot\lib\gulp-rtlcss\node_modules\postcss\lib\terminal-highlight.js" />
-    <None Include="wwwroot\lib\gulp-rtlcss\node_modules\postcss\lib\tokenize.js" />
-    <None Include="wwwroot\lib\gulp-rtlcss\node_modules\postcss\lib\vendor.js" />
-    <None Include="wwwroot\lib\gulp-rtlcss\node_modules\postcss\lib\warn-once.js" />
-    <None Include="wwwroot\lib\gulp-rtlcss\node_modules\postcss\lib\warning.js" />
-    <None Include="wwwroot\lib\gulp-rtlcss\node_modules\rtlcss\bin\rtlcss.js" />
-    <None Include="wwwroot\lib\gulp-rtlcss\node_modules\rtlcss\lib\config-loader.js" />
-    <None Include="wwwroot\lib\gulp-rtlcss\node_modules\rtlcss\lib\config.js" />
-    <None Include="wwwroot\lib\gulp-rtlcss\node_modules\rtlcss\lib\directive-parser.js" />
-    <None Include="wwwroot\lib\gulp-rtlcss\node_modules\rtlcss\lib\plugin.js" />
-    <None Include="wwwroot\lib\gulp-rtlcss\node_modules\rtlcss\lib\rtlcss.js" />
-    <None Include="wwwroot\lib\gulp-rtlcss\node_modules\rtlcss\lib\state.js" />
-    <None Include="wwwroot\lib\gulp-rtlcss\node_modules\rtlcss\lib\util.js" />
-    <None Include="wwwroot\lib\gulp-rtlcss\node_modules\strip-json-comments\index.js" />
-    <None Include="wwwroot\lib\gulp-rtlcss\node_modules\strip-json-comments\license" />
-    <None Include="wwwroot\lib\pdfmake\node_modules\iconv-lite\encodings\dbcs-codec.js" />
-    <None Include="wwwroot\lib\pdfmake\node_modules\iconv-lite\encodings\dbcs-data.js" />
-    <None Include="wwwroot\lib\pdfmake\node_modules\iconv-lite\encodings\index.js" />
-    <None Include="wwwroot\lib\pdfmake\node_modules\iconv-lite\encodings\internal.js" />
-    <None Include="wwwroot\lib\pdfmake\node_modules\iconv-lite\encodings\sbcs-codec.js" />
-    <None Include="wwwroot\lib\pdfmake\node_modules\iconv-lite\encodings\sbcs-data-generated.js" />
-    <None Include="wwwroot\lib\pdfmake\node_modules\iconv-lite\encodings\sbcs-data.js" />
-    <None Include="wwwroot\lib\pdfmake\node_modules\iconv-lite\encodings\utf16.js" />
-    <None Include="wwwroot\lib\pdfmake\node_modules\iconv-lite\encodings\utf32.js" />
-    <None Include="wwwroot\lib\pdfmake\node_modules\iconv-lite\encodings\utf7.js" />
-    <None Include="wwwroot\lib\pdfmake\node_modules\iconv-lite\lib\bom-handling.js" />
-    <None Include="wwwroot\lib\pdfmake\node_modules\iconv-lite\lib\index.js" />
-    <None Include="wwwroot\lib\pdfmake\node_modules\iconv-lite\lib\streams.js" />
-    <None Include="wwwroot\lib\treeview\node_modules\jquery\external\sizzle\sizzle.min.js" />
-    <None Include="wwwroot\lib\treeview\node_modules\jquery\jquery.min.js" />
-  </ItemGroup>
+  
 
   <ItemGroup>
     <PackageReference Include="MailKit" Version="4.0.0" />
