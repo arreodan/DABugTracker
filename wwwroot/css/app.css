@@ -22073,3 +22073,11 @@ body[data-layout-color=dark] .datepicker tfoot tr th:hover {
   border-radius: 3px;
   font-weight: 500;
 }
+.mb-title{
+    font-size: 1.35rem;
+}
+.member-card {
+    background-color: #F4F8FA;
+    border-radius: 10px;
+    padding: 1rem;
+}

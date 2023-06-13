@@ -92,44 +92,58 @@
 
                 </div>
             </div>
-            <h3>Tickets</h3>
-            @foreach (Ticket ticket in await _ticketService.GetTicketsByProjectAsync(Model.CompanyId, Model.Id))
-            {
-                <div class="card">
-                    <div class="card-body task-detail">
-                        <div class="d-block mb-3">
-                            <div class="flex-grow-1">
-                                <h4>@ticket.Title</h4>
-                            </div>
-                        </div>
-                        <h5 class="font-600 m-b-5">Ticket Description</h5>
-                        <p class="text-muted">
-                            @ticket.Description
-                        </p>
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Ticket Name</th>
+                                    <th>Created Date</th>
+                                    <th>Submitter</th>
+                                    <th>Developer</th>
+                                    <th>Priority</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (Ticket ticket in await _ticketService.GetTicketsByProjectAsync(Model.CompanyId, Model.Id))
+                                {
+                                    <tr>
+                                        <td>@ticket.Title</td>
+                                        <td>@ticket.Created.ToString("dd MMMM yyyy")</td>
+                                        <td>@ticket.SubmitterUser!.FullName</td>
+                                        @if (ticket.DeveloperUserId == null)
+                                        {
+                                            <td class="text-warning">Unassigned</td>
+                                        }
+                                        else
+                                        {
+                                            <td>@ticket.DeveloperUser!.FullName</td>
+                                        }
 
-                        <h5 class="font-600 m-b-5">Ticket Status</h5>
-                        <p class="text-muted">
-                            @ticket.TicketStatus!.Name
-                        </p>
-                        <div class="">
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <div class="text-end">
-                                        <button type="submit" class="btn btn-success waves-effect waves-light me-1">
-                                            Details
-                                        </button>
-                                        <button type="button"
-                                                class="btn btn-light waves-effect">
-                                            Archive / Unarchive
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
+                                        @if (ticket.TicketPriority!.Name == "Low")
+                                        {
+                                            <td><span class="badge bg-success">@ticket.TicketPriority!.Name</span></td>
+                                        }
+                                        else if (ticket.TicketPriority!.Name == "Medium")
+                                        {
+                                            <td><span class="badge bg-primary">@ticket.TicketPriority!.Name</span></td>
+                                        }
+                                        else if (ticket.TicketPriority!.Name == "High")
+                                        {
+                                            <td><span class="badge bg-warning">@ticket.TicketPriority!.Name</span></td>
+                                        }
+                                        else if (ticket.TicketPriority!.Name == "Urgent")
+                                        {
+                                            <td><span class="badge bg-danger">@ticket.TicketPriority!.Name</span></td>
+                                        }
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-            }
+            </div>
         </div>
 
         <div class="col-md-4">
@@ -145,7 +159,7 @@
                     <h4 class="header-title mt-0 mb-3">Project Members (@Model.Members.Count())</h4>
 
                     <div>
-                        <h4 class="header-title mt-0 mb-3">Project Manager</h4>
+                        <h3 class="mt-0 mb-3 mb-title">Project Manager</h3>
                         @foreach (BTUser member in await _projectService.GetProjectMembersByRoleAsync(Model.Id, nameof(BTRoles.ProjectManager), Model.CompanyId))
                         {
                             <div class="d-flex mb-3 member-card">
@@ -158,7 +172,7 @@
                                 </div>
                             </div>
                         }
-                        <h4 class="header-title mt-0 mb-3">Developers</h4>
+                        <h3 class="mt-0 mb-3 mb-title">Developers</h3>
                         @foreach (BTUser member in await _projectService.GetProjectMembersByRoleAsync(Model.Id, nameof(BTRoles.Developer), Model.CompanyId))
                         {
                             <div class="d-flex mb-3 member-card">
@@ -171,7 +185,19 @@
                                 </div>
                             </div>
                         }
-                        <h4 class="header-title mt-0 mb-3">Submitters</h4>
+                        <h3 class="mt-0 mb-3 mb-title">Submitters</h3>
+                        @foreach (BTUser member in await _projectService.GetProjectMembersByRoleAsync(Model.Id, nameof(BTRoles.Submitter), Model.CompanyId))
+                        {
+                            <div class="d-flex mb-3 member-card">
+                                <div class="flex-grow-1">
+                                    <h5 class="mt-0">@member.FullName</h5>
+                                    <p class="font-13 text-muted mb-0">
+                                        <strong>Submitter</strong>
+                                    </p>
+                                    <a href="" class="text-primary font-13">@member.Email</a>
+                                </div>
+                            </div>
+                        }
                     </div>
                 </div>
             </div>
