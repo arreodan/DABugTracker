@@ -11,203 +11,122 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ImageFormFile)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Created)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StartDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EndDate)
-            </th>
-            @*            <th>
-            @Html.DisplayNameFor(model => model.ImageFileData)
-            </th>*@
-
-            <th>
-                @Html.DisplayNameFor(model => model.ImageFileType)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Archived)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Company)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ProjectPriority)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-
-                <td>
-                    @Html.DisplayFor(modelItem => item.Created)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.StartDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EndDate)
-                </td>
-                @*            <td>
-            @Html.DisplayFor(modelItem => item.ImageFileData)
-            </td>*@
-                <td>
-                    @Html.DisplayFor(modelItem => item.ImageFileType)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Archived)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Company.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ProjectPriority.Id)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Archive" asp-route-id="@item.Id">Archive</a> |
-                    <a asp-action="AssignPM" asp-route-id="@item.Id">Assign PM</a>
-                    <a asp-action="AssignMember" asp-route-id="@item.Id">Assign Member</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-    <!-- Start Content-->
-    <div class="container-fluid">
-
-        <div class="row">
-            <div class="col-sm-4">
-                <a asp-action="Create" class="btn btn-purple rounded-pill w-md waves-effect waves-light mb-3"><i class="mdi mdi-plus"></i> Create Project</a>
-            </div>
-            <div class="col-sm-8">
-                <div class="float-end">
-                    <form class="row g-2 align-items-center mb-2 mb-sm-0">
-                        <div class="col-auto">
-                            <div class="d-flex">
-                                <label class="d-flex align-items-center">
-                                    Phase
-                                    <select class="form-select form-select-sm d-inline-block ms-2">
-                                        <option>All Projects(6)</option>
-                                        <option>Complated</option>
-                                        <option>Progress</option>
-                                    </select>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="col-auto">
-                            <div class="d-flex">
-                                <label class="d-flex align-items-center">
-                                    Sort
-                                    <select class="form-select form-select-sm d-inline-block ms-2">
-                                        <option>Date</option>
-                                        <option>Name</option>
-                                        <option>End date</option>
-                                        <option>Start Date</option>
-                                    </select>
-                                </label>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div><!-- end col-->
+<!-- Start Content-->
+<div class="container-fluid">
+    <div class="row">
+        <h1>All Projects</h1>
+        <div class="col-sm-4">
+            <a asp-action="Create" class="btn btn-purple rounded-pill w-md waves-effect waves-light mb-3"><i class="mdi mdi-plus"></i> Create Project</a>
         </div>
-        <!-- end row -->
+        <div class="col-sm-8">
+            <div class="float-end">
+                <form class="row g-2 align-items-center mb-2 mb-sm-0">
+                    <div class="col-auto">
+                        <div class="d-flex">
+                            <label class="d-flex align-items-center">
+                                Phase
+                                <select class="form-select form-select-sm d-inline-block ms-2">
+                                    <option>All Projects(6)</option>
+                                    <option>Complated</option>
+                                    <option>Progress</option>
+                                </select>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <div class="d-flex">
+                            <label class="d-flex align-items-center">
+                                Sort
+                                <select class="form-select form-select-sm d-inline-block ms-2">
+                                    <option>Date</option>
+                                    <option>Name</option>
+                                    <option>End date</option>
+                                    <option>Start Date</option>
+                                </select>
+                            </label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div><!-- end col-->
+    </div>
+    <!-- end row -->
 
 
-        <div class="row">
-           
-            @foreach (Project project in await _projectService.GetAllProjectsByCompanyIdAsync(User.Identity!.GetCompanyId()))
-            {
-                <div class="col-xl-4 gy-4">
-                    <div class="card h-100">
+    <div class="row">
+
+        @foreach (Project project in await _projectService.GetAllProjectsByCompanyIdAsync(User.Identity!.GetCompanyId()))
+        {
+            <div class="col-xl-4 gy-4">
+                <div class="card h-100">
                     <div class="card-body project-box">
-                        @if(project.ProjectPriority!.Name == "Low")
-                            {
-                                <div class="badge bg-primary float-end">@project.ProjectPriority!.Name</div>
-                            }
-                            else if (project.ProjectPriority!.Name == "Medium")
-                            {
-                                <div class="badge bg-Success float-end">@project.ProjectPriority!.Name</div>
-                            }
-                            else if (project.ProjectPriority!.Name == "High")
-                            {
-                                <div class="badge bg-warning float-end">@project.ProjectPriority!.Name</div>
-                            }
-                            else if (project.ProjectPriority!.Name == "Urgent")
-                            {
-                                <div class="badge bg-danger float-end">@project.ProjectPriority!.Name</div>
-                            }
-                            <h4 class="mt-0"><a href="" class="text-dark">@project.Name</a></h4>
+                        @if (project.ProjectPriority!.Name == "Low")
+                        {
+                            <div class="badge bg-primary float-end">@project.ProjectPriority!.Name</div>
+                        }
+                        else if (project.ProjectPriority!.Name == "Medium")
+                        {
+                            <div class="badge bg-Success float-end">@project.ProjectPriority!.Name</div>
+                        }
+                        else if (project.ProjectPriority!.Name == "High")
+                        {
+                            <div class="badge bg-warning float-end">@project.ProjectPriority!.Name</div>
+                        }
+                        else if (project.ProjectPriority!.Name == "Urgent")
+                        {
+                            <div class="badge bg-danger float-end">@project.ProjectPriority!.Name</div>
+                        }
+                        <h4 class="mt-0"><a asp-action="Details" asp-route-id="@project.Id" class="text-dark">@project.Name</a></h4>
 
-                            @* PROJECT'S STATUS *@
-                            @if (project.Archived == true)
-                            {
-                                <p class="text-muted text-uppercase font-13">Archived</p>
-                            }
-                            else if (@DateTime.Now > project.EndDate)
-                            {
-                                <p class="text-danger text-uppercase font-13">Overdue</p>
-                            }
-                            else
-                            {
-                                <p class="text-success text-uppercase font-13">In Progress</p>
-                            }
-                            @*<h5>Archived / In Progress / Overdue</h5>*@
+                        @* PROJECT'S STATUS *@
+                        @if (project.Archived == true)
+                        {
+                            <p class="text-muted text-uppercase font-13">Archived</p>
+                        }
+                        else if (@DateTime.Now > project.EndDate)
+                        {
+                            <p class="text-danger text-uppercase font-13">Overdue</p>
+                        }
+                        else
+                        {
+                            <p class="text-success text-uppercase font-13">In Progress</p>
+                        }
+                        @*<h5>Archived / In Progress / Overdue</h5>*@
                         <p class="text-muted font-13">
                             @project.Description
                         </p>
+                        <div class="row task-dates mb-0 mt-2">
+                            <div class="col-lg-6">
+                                <h4 class="font-600 m-b-5">Start Date</h4>
+                                <p>@project.StartDate.ToString("dd MMMM yyyy")</p>
+                            </div>
 
-                        <ul class="list-inline">
-                            <li class="list-inline-item me-4">
-                                <h4 class="mb-0">@project.Tickets.Count</h4>
-                                <p class="text-muted">Tickets</p>
-                            </li>
-                            <li class="list-inline-item">
-                                <h4 class="mb-0">@project.Members.Count</h4>
-                                <p class="text-muted">Members</p>
-                            </li>
-                        </ul>
+                            <div class="col-lg-6">
+                                <h4 class="font-600 m-b-5">Due Date</h4>
+                                <p>@project.EndDate.ToString("dd MMMM yyyy")</p>
+                            </div>
+                        </div>
+                        <div class="">
+                            <ul class="list-inline">
+                                <li class="list-inline-item me-4">
+                                    <h4 class="mb-0">@project.Tickets.Count</h4>
+                                    <p class="text-muted">Tickets</p>
+                                </li>
+                                <li class="list-inline-item">
+                                    <h4 class="mb-0">@project.Members.Count</h4>
+                                    <p class="text-muted">Members</p>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
-            </div><!-- end col-->
-            }
+            </div>
 
-        </div>
-        <!-- end row -->
+            <!-- end col-->
+        }
 
-    </div> <!-- container-fluid -->
+    </div>
+    <!-- end row -->
 
-
-
-
-
+</div> <!-- container-fluid -->
 </table>
