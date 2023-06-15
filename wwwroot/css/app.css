@@ -22084,3 +22084,6 @@ body[data-layout-color=dark] .datepicker tfoot tr th:hover {
 .bg-archived {
     background-color: #E77E18 !important;
 }
+.landing{
+    height: 100vh;
+}
