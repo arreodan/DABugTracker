@@ -81,7 +81,7 @@
                         @* PROJECT'S STATUS *@
                         @if (project.Archived == true)
                         {
-                            <p class="text-muted text-uppercase font-13">Archived</p>
+                            <p class="badge bg-archived text-uppercase font-13">Archived</p>
                         }
                         else if (@DateTime.Now > project.EndDate)
                         {
@@ -129,4 +129,3 @@
     <!-- end row -->
 
 </div> <!-- container-fluid -->
-</table>

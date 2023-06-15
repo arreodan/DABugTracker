@@ -20,6 +20,7 @@ using System.Data;
 using System.ComponentModel.Design;
 using DABugTracker.Services;
 using System.IO;
+using Org.BouncyCastle.Bcpg;
 
 namespace DABugTracker.Controllers
 {
@@ -216,6 +217,8 @@ namespace DABugTracker.Controllers
 
                 await _ticketService.AddTicketAttachmentAsync(ticketAttachment);
                 statusMessage = "Success: New attachment added to Ticket.";
+
+                await _ticketHistory.AddHistoryAsync(ticketAttachment.TicketId, nameof(TicketAttachment), ticketAttachment.BTUserId!);
             }
             else
             {
@@ -344,6 +347,8 @@ namespace DABugTracker.Controllers
                 ticketComment.UserId = _userManager.GetUserId(User);
 
                 await _ticketService.AddTicketCommentAsync(ticketComment);
+
+                await _ticketHistory.AddHistoryAsync(ticketComment.TicketId, nameof(TicketComment), ticketComment.UserId);
             }
             
                 return RedirectToAction("Details", new { id = ticketComment.TicketId });

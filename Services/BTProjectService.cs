@@ -328,7 +328,13 @@ namespace DABugTracker.Services
         {
             try
             {
-                List<Project> allProjects = await GetAllProjectsByCompanyIdAsync(companyId);
+                List<Project> allProjects = await _context.Projects
+                                                          .Where(p => p.CompanyId == companyId)
+                                                          .Include(p => p.Tickets)
+                                                          .Include(p => p.ProjectPriority)
+                                                          .Include(p => p.Members)
+                                                          .ToListAsync();
+
                 List<Project> unassignedProjects = new();
 
                 foreach (Project project in allProjects)

@@ -165,7 +165,11 @@
                             <hr />
                         </div>
                         <div class="card-body" style="overflow-y:auto;height:1000px;background-color:antiquewhite">
-                            @*Loop to show the history entries for the Ticket*@
+                            @foreach(TicketHistory history in Model.History)
+                            {
+                                <h4>@history.PropertyName</h4>
+                                <p>@history.Description</p>
+                            }
                         </div>
                     </div>
                 </div>
