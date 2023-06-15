@@ -5,79 +5,127 @@
     ViewData["Title"] = "Log in";
     Layout = null;
 }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Log In | Adminto - Responsive Admin Dashboard Template</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
+    <meta content="Coderthemes" name="author" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="assets/images/favicon.ico">
 
-<h1>@ViewData["Title"]</h1>
-<div class="row">
-    <div class="col-md-4">
-        <section>
-            <form id="account" method="post">
-                <h2>Use a local account to log in.</h2>
-                <hr />
-                <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-                <div class="form-floating mb-3">
-                    <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
-                    <label asp-for="Input.Email" class="form-label">Email</label>
-                    <span asp-validation-for="Input.Email" class="text-danger"></span>
-                </div>
-                <div class="form-floating mb-3">
-                    <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="password" />
-                    <label asp-for="Input.Password" class="form-label">Password</label>
-                    <span asp-validation-for="Input.Password" class="text-danger"></span>
-                </div>
-                <div class="checkbox mb-3">
-                    <label asp-for="Input.RememberMe" class="form-label">
-                        <input class="form-check-input" asp-for="Input.RememberMe" />
-                        @Html.DisplayNameFor(m => m.Input.RememberMe)
-                    </label>
-                </div>
-                <div>
-                    <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary">Log in</button>
-                </div>
-                <div>
-                    <p>
-                        <a id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a>
-                    </p>
-                    <p>
-                        <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a>
-                    </p>
-                    <p>
-                        <a id="resend-confirmation" asp-page="./ResendEmailConfirmation">Resend email confirmation</a>
-                    </p>
-                </div>
-            </form>
-        </section>
-    </div>
-    <div class="col-md-6 col-md-offset-2">
-        <section>
-            <h3>Use another service to log in.</h3>
-            <hr />
-            @{
-                if ((Model.ExternalLogins?.Count ?? 0) == 0)
-                {
-                    <div>
-                        <p>
-                            There are no external authentication services configured. See this <a href="https://go.microsoft.com/fwlink/?LinkID=532715">article
-                            about setting up this ASP.NET application to support logging in via external services</a>.
-                        </p>
+    <!-- App css -->
+
+    <link href="~/css/app.min.css" rel="stylesheet" type="text/css" id="app-style" />
+
+    <!-- icons -->
+    <link href="~/css/icons.min.css" rel="stylesheet" type="text/css" />
+
+</head>
+<body class="authentication-bg authentication-bg-pattern">
+
+
+    <div class="account-pages my-5">
+        <div class="container">
+
+            <div class="row justify-content-center">
+                <div class="col-md-8 col-lg-6 col-xl-4">
+                    <div class="text-center">
+                        <a href="index.html">
+                            <img src="assets/images/logo-dark.png" alt="" height="22" class="mx-auto">
+                        </a>
+                        <p class="text-muted mt-2 mb-4">Responsive Admin Dashboard</p>
+
                     </div>
-                }
-                else
-                {
-                    <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
-                        <div>
-                            <p>
-                                @foreach (var provider in Model.ExternalLogins!)
-                                {
-                                    <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
-                                }
-                            </p>
-                        </div>
-                    </form>
-                }
-            }
-        </section>
+                    <div class="card">
+                        <div class="card-body p-4">
+
+                            <div class="text-center mb-4">
+                                <h4 class="text-uppercase mt-0">Sign In</h4>
+                            </div>
+
+                            <form id="account" method="post">
+                                <div class="mb-3">
+                                    <label asp-for="Input.Email" for="emailaddress" class="form-label">Email address</label>
+                                    <input asp-for="Input.Email" class="form-control" id="emailaddress" required="" placeholder="Enter your email">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label asp-for="Input.Password" for="password" class="form-label">Password</label>
+                                    <input asp-for="Input.Password" class="form-control" required="" id="password" placeholder="Enter your password">
+                                </div>
+
+                                <div class="mb-3">
+                                    <div class="form-check">
+                                        <input asp-for="Input.RememberMe" class="form-check-input" id="checkbox-signin" checked>
+                                        <label asp-for="Input.RememberMe" class="form-check-label" for="checkbox-signin">Remember me</label>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3 d-grid text-center">
+                                    <button class="btn btn-primary" type="submit"> Log In </button>
+                                </div>
+                            </form>
+
+
+                            <div class="text-center my-4">
+                                <h4 class="text-uppercase mt-0">Demo Accounts</h4>
+                            </div>
+
+                            <form id="account" method="post">
+                                <div class="mb-3 d-grid text-center">
+                                    <button class="btn btn-primary" type="submit" name="demoEmail" value="DemoAdminEmail"> Demo Admin </button>
+                                </div>
+                                <div class="mb-3 d-grid text-center">
+                                    <button class="btn btn-primary" type="submit" name="demoEmail" value="DemoPMEmail"> Demo PM </button>
+                                </div>
+                                <div class="mb-3 d-grid text-center">
+                                    <button class="btn btn-primary" type="submit" name="demoEmail" value="DemoDevEmail"> Demo Developer </button>
+                                </div>
+                                <div class="mb-3 d-grid text-center">
+                                    <button class="btn btn-primary" type="submit" name="demoEmail" value="DemoSubEmail"> Demo Submitter </button>
+                                </div>
+                            </form>
+
+                        </div> <!-- end card-body -->
+                    </div>
+                    <!-- end card -->
+
+                    <div class="row mt-3">
+                        <div class="col-12 text-center">
+                            <p> <a id="forgot-password" asp-page="./ForgotPassword" class="text-muted ms-1"><i class="fa fa-lock me-1"></i>Forgot your password?</a></p>
+                            <p class="text-muted">Don't have an account? <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl" class="text-dark ms-1"><b>Sign Up</b></a></p>
+                        </div> <!-- end col -->
+                    </div>
+                    <!-- end row -->
+
+                </div> <!-- end col -->
+            </div>
+            <!-- end row -->
+        </div>
+        <!-- end container -->
     </div>
-</div>
+    <!-- end page -->
+    <!-- Vendor -->
+    <script src="~/libs/jquery/jquery.min.js"></script>
+    <script src="~/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/libs/simplebar/simplebar.min.js"></script>
+    <script src="~/libs/node-waves/waves.min.js"></script>
+    <script src="~/libs/waypoints/lib/jquery.waypoints.min.js"></script>
+    <script src="~/libs/jquery.counterup/jquery.counterup.min.js"></script>
+    <script src="~/libs/feather-icons/feather.min.js"></script>
+
+    <!-- App js -->
+    <script src="~/js/app.min.js"></script>
+
+
+
+
+</body>
+</html>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
