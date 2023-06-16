@@ -19,6 +19,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
+using DABugTracker.Data;
+using System.ComponentModel.Design;
+using DABugTracker.Models.Enums;
 
 namespace DABugTracker.Areas.Identity.Pages.Account
 {
@@ -30,13 +34,15 @@ namespace DABugTracker.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<BTUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly ApplicationDbContext _context;
 
         public RegisterModel(
             UserManager<BTUser> userManager,
             IUserStore<BTUser> userStore,
             SignInManager<BTUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            ApplicationDbContext context)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -44,6 +50,7 @@ namespace DABugTracker.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _context = context;
         }
 
         /// <summary>
@@ -98,6 +105,23 @@ namespace DABugTracker.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
+            [Required]
+            [Display(Name = "First Name")]
+            [StringLength(50, ErrorMessage = "The {0} must be at least {2} and max {1} characters long.", MinimumLength = 2)]
+            public string FirstName { get; set; }
+
+            [Required]
+            [Display(Name = "Last Name")]
+            [StringLength(50, ErrorMessage = "The {0} must be at least {2} and max {1} characters long.", MinimumLength = 2)]
+            public string LastName { get; set; }
+
+            [Required]
+            [Display(Name = "Company Name")]
+            public string CompanyName { get; set; }
+
+            [Display(Name = "Company Description")]
+            public string CompanyDescription { get; set; }
         }
 
 
@@ -113,7 +137,17 @@ namespace DABugTracker.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = CreateUser();
+
+                Company company = new()
+                {
+                    Name = Input.CompanyName,
+                    Description = Input.CompanyDescription
+                };
+
+                await _context.AddAsync(company);
+                await _context.SaveChangesAsync();
+
+                var user = CreateUser(company.Id);
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
@@ -122,6 +156,7 @@ namespace DABugTracker.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
+                    await _userManager.AddToRoleAsync(user, nameof(BTRoles.Admin));
 
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -155,11 +190,16 @@ namespace DABugTracker.Areas.Identity.Pages.Account
             return Page();
         }
 
-        private BTUser CreateUser()
+        private BTUser CreateUser(int companyId)
         {
             try
             {
-                return Activator.CreateInstance<BTUser>();
+                BTUser bTUser = Activator.CreateInstance<BTUser>();
+                bTUser.FirstName = Input.FirstName;
+                bTUser.LastName = Input.LastName;
+                bTUser.CompanyId = companyId;
+
+                return bTUser;
             }
             catch
             {
