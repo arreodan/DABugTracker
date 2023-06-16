@@ -10,7 +10,8 @@
 @{
     BTUser appUser = await UserManager.GetUserAsync(User);
 
-    ViewData["Role"] = await _roleService.GetUserRolesAsync(appUser);
+    var roleNames = await _roleService.GetUserRolesAsync(appUser);
+    string? roleName = roleNames.FirstOrDefault(r => r != nameof(BTRoles.DemoUser));
 }
 
 <!DOCTYPE html>
@@ -40,7 +41,7 @@
 </head>
 <!-- body start -->
 <body data-layout-color="light" data-layout-mode="default" data-layout-size="fluid" data-topbar-color="light" data-leftbar-position="fixed" data-leftbar-color="light" data-leftbar-size='default' data-sidebar-user='true'>
-
+    <partial name="_LogoutPartial">
     <!-- Begin page -->
     <div id="wrapper">
 
@@ -62,7 +63,7 @@
                 <li class="dropdown notification-list topbar-dropdown">
                     <a class="nav-link dropdown-toggle nav-user me-0 waves-effect waves-light" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                         <span class="pro-user-name ms-1">
-                            @appUser.FullName! <i class="mdi mdi-chevron-down"></i>
+                            @appUser.FullName <i class="mdi mdi-chevron-down"></i>
                         </span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-end profile-dropdown ">
@@ -79,7 +80,7 @@
 
 
                         <!-- item-->
-                        <a asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" class="dropdown-item notify-item">
+                            <a href="javascript:document.getElementById('logoutForm').submit();" class="dropdown-item notify-item">
                             <i class="fe-log-out"></i>
                             <span>Logout</span>
                         </a>
@@ -131,7 +132,7 @@
                 <!-- User box -->
                 <div class="user-box text-center">
                     <div class="dropdown">
-                        <a href="#" class="user-name dropdown-toggle h5 mt-2 mb-1 d-block" data-bs-toggle="dropdown" aria-expanded="false">@appUser.FullName!</a>
+                        <a href="#" class="user-name dropdown-toggle h5 mt-2 mb-1 d-block" data-bs-toggle="dropdown" aria-expanded="false">@appUser.FullName</a>
                         <div class="dropdown-menu user-pro-dropdown">
 
                             <!-- item-->
@@ -141,7 +142,7 @@
                             </a>
 
                             <!-- item-->
-                            <a asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" class="dropdown-item notify-item">
+                                <a href="javascript:document.getElementById('logoutForm').submit();" class="dropdown-item notify-item">
                                 <i class="fe-log-out me-1"></i>
                                 <span>Logout</span>
                             </a>
@@ -149,7 +150,7 @@
                         </div>
                     </div>
 
-                    <p class="text-muted left-user-info">@ViewData["Role"]</p>
+                    <p class="text-muted left-user-info">@roleName</p>
 
                     <ul class="list-inline">
                         <li class="list-inline-item">
@@ -159,7 +160,7 @@
                         </li>
 
                         <li class="list-inline-item">
-                            <a asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })">
+                                <a href="javascript:document.getElementById('logoutForm').submit();">
                                 <i class="mdi mdi-power"></i>
                             </a>
                         </li>
