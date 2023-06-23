@@ -459,5 +459,25 @@ namespace DABugTracker.Services
                 throw;
             }
         }
+
+        public async Task<List<Project>> GetEveryProjectByCompanyIdAsync(int companyId)
+        {
+            try
+            {
+                List<Project> project = await _context.Projects
+                                      .Where(p => p.CompanyId == companyId)
+                                      .Include(p => p.Tickets)
+                                      .Include(p => p.ProjectPriority)
+                                      .Include(p => p.Members)
+                                      .ToListAsync();
+
+                return project;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

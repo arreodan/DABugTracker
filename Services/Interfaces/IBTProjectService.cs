@@ -24,5 +24,7 @@ namespace DABugTracker.Services.Interfaces
         Task<bool> RemoveMemberFromProjectAsync(BTUser member, int projectId, int companyId);
         Task RemoveMembersFromProjectAsync(int projectId, int companyId);
         Task AddMembersToProjectAsync(int projectId, int companyId, IEnumerable<string> selectedIds);
+
+        Task<List<Project>> GetEveryProjectByCompanyIdAsync(int companyId);
     }
 }
