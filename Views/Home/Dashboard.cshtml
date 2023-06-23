@@ -15,6 +15,9 @@
     ViewData["Title"] = "Dashboard";
     @* Instantiate the btUser *@
     BTUser? user = await UserManager.GetUserAsync(User);
+
+    var currentUserRole = await _roleService.GetUserRolesAsync(user!);
+    string? currentRoleName = currentUserRole.FirstOrDefault(r => r != nameof(BTRoles.DemoUser));
 }
 
 <!-- Start Content-->
@@ -94,9 +97,18 @@
                                         }
                                         else
                                         {
-                                            <td>
-                                                Unassigned <a asp-controller="projects" asp-action="AssignPM" asp-route-id="@project.Id"><i class="bi bi-pencil-square"></i></a>
-                                            </td>
+                                            @if (currentRoleName == "Admin")
+                                            {
+                                                <td>
+                                                    Unassigned <a asp-controller="projects" asp-action="AssignPM" asp-route-id="@project.Id"><i class="bi bi-pencil-square"></i></a>
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                <td>
+                                                    Unassigned
+                                                </td>
+                                            }
                                         }
 
 
@@ -131,16 +143,13 @@
         <div class="col-xl-3 col-md-6">
             <div class="card h-100">
                 <div class="card-body ">
-                    <h4 class="header-title mt-0 mb-3">Recent Projects</h4>
+                    <h4 class="header-title mt-0 mb-3">Recent Tickets</h4>
                     <div class="table-responsive">
                         <table class="table table-hover mb-0">
                             <thead>
                                 <tr>
-                                    <th>Project</th>
                                     <th>Ticket Name</th>
-                                    <th>Created Date</th>
                                     <th>Submitter</th>
-                                    <th>Developer</th>
                                     <th>Priority</th>
                                 </tr>
                             </thead>
@@ -148,18 +157,8 @@
                                 @foreach (Ticket ticket in await _ticketService.GetRecentTicketsAsync(user!.CompanyId))
                                 {
                                     <tr>
-                                        <td>@ticket.Project!.Name</td>
-                                        <td>@ticket.Title</td>
-                                        <td>@ticket.Created.ToString("dd MMMM yyyy")</td>
+                                        <td><a asp-action="Details" asp-route-id="@ticket.Id">@ticket.Title</a></td>
                                         <td>@ticket.SubmitterUser!.FullName</td>
-                                        @if (ticket.DeveloperUserId == null)
-                                        {
-                                            <td><a asp-asp-controller="tickets" asp-action="assigndev" asp-route-id="@ticket.Id" class="btn btn-sm btn-outline-warning"> Unassigned</a></td>
-                                        }
-                                        else
-                                        {
-                                            <td>@ticket.DeveloperUser!.FullName</td>
-                                        }
 
                                         @if (ticket.TicketPriority!.Name == "Low")
                                         {
@@ -177,7 +176,6 @@
                                         {
                                             <td><span class="badge bg-danger">@ticket.TicketPriority!.Name</span></td>
                                         }
-                                        <td><a asp-action="Details" asp-route-id="@ticket.Id" class="btn btn-sm btn-soft-dark">Details</a></td>
                                     </tr>
                                 }
                             </tbody>
@@ -207,20 +205,53 @@
         </div>
     </div>
 
-            <div class="col-md-2 ">
-                <div class="bg-dark">
-                    <div class="card m-1 p-2">
-                        <div class="card-header">
-                            <h2>Members</h2>
-                            <hr />
-                        </div>
-                        <div class="card-body" style="overflow-y:auto;height:600px;background-color:antiquewhite">
-                            @* Looop over Company members. Display Name and Role *@
+    <div class="row pt-3">
+
+        @foreach (BTUser member in Model.Members!)
+        {
+            
+                var roleNames = await _roleService.GetUserRolesAsync(member!);
+                string? roleName = roleNames.FirstOrDefault(r => r != nameof(BTRoles.DemoUser));
+            
+
+            <div class="col-xl-3 col-md-6">
+                <div class="card">
+                    <div class="card-body widget-user">
+                        <div class="d-flex align-items-center">
+                            <div class="flex-grow-1 overflow-hidden">
+                                <h5 class="mt-0 mb-1">@member.FullName</h5>
+                                <p class="text-muted mb-2 font-13 text-truncate">@member.Email</p>
+                                @if(roleName == "Admin")
+                                {
+                                    <small class="badge bg-danger"><b>@roleName</b></small>
+                                }
+                                else if (roleName == "ProjectManager")
+                                {
+                                    <small class="badge bg-primary"><b>Project Manager</b></small>
+                                }
+                                else if (roleName == "Developer")
+                                {
+                                    <small class="badge bg-success"><b>@roleName</b></small>
+                                }
+                                else if (roleName == "Submitter")
+                                {
+                                    <small class="badge bg-purple"><b>@roleName</b></small>
+                                }
+
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+
+            <!-- end col -->
+        }
+        @if(currentRoleName == "Admin")
+        {   
+        <p class="">
+            <a asp-action="manageuserroles" asp-controller="company" class="btn btn-purple rounded-pill w-md waves-effect waves-light mb-3">Manage Users</a>
+        </p>
+        }
     </div>
 </div>
 
@@ -249,7 +280,7 @@
         @Model.Tickets!.Where(t=> t.TicketStatus!.Name ==nameof(BTTicketStatuses.New) && t.Archived == false).Count(),
         @Model.Tickets!.Where(t=> t.TicketStatus!.Name ==nameof(BTTicketStatuses.Resolved) && t.Archived == false).Count(),
         @Model.Tickets!.Where(t=> t.TicketStatus!.Name ==nameof(BTTicketStatuses.Testing) && t.Archived == false).Count()
-                                                                                    ],
+                                                                                                        ],
                     backgroundColor: [
                         'rgb(249 200 81)',
                         'rgb(113,182,249)',
@@ -293,7 +324,7 @@
                     data: [
         @Model.Tickets!.Where(p => p.Archived == false).Count(),
         @Model.Tickets!.Where(p => p.Archived == true).Count()
-                                                                                    ],
+                                                                                                        ],
                     backgroundColor: [
                         'RGB(113 182 249)',
                         'RGB(255 91 91)'
