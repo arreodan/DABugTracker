@@ -283,7 +283,7 @@ namespace DABugTracker.Controllers
                 {
                     throw;
                 }
-                return RedirectToAction(nameof(AllTickets));
+                return RedirectToAction("Details", new { ticket!.Id });
             }
 
             ViewData["TicketPriorityId"] = new SelectList(await _ticketService.GetTicketPriorities(), "Id", "Name", ticket.TicketPriorityId);
@@ -321,7 +321,7 @@ namespace DABugTracker.Controllers
             {
                 await _ticketService.ArchiveTicketAsync(ticket, User.Identity!.GetCompanyId());
             }
-            return RedirectToAction(nameof(AllTickets));
+            return RedirectToAction("Details", new { ticket!.Id });
         }
 
         public async Task<IActionResult> ShowFile(int id)

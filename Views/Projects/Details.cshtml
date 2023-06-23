@@ -1,13 +1,19 @@
 ﻿@model DABugTracker.Models.Project
 @using DABugTracker.Services.Interfaces
 @using DABugTracker.Models.Enums
+@using Microsoft.AspNetCore.Identity
 
 @inject IBTProjectService _projectService;
 @inject IBTTicketService _ticketService;
 @inject IBTRolesService _roleService;
+@inject UserManager<BTUser> UserManager
 
 @{
     ViewData["Title"] = "Details";
+    BTUser? user = await UserManager.GetUserAsync(User);
+
+    var currentUserRole = await _roleService.GetUserRolesAsync(user!);
+    string? currentRoleName = currentUserRole.FirstOrDefault(r => r != nameof(BTRoles.DemoUser));
 }
 
 

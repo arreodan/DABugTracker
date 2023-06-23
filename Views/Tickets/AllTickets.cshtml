@@ -52,7 +52,7 @@
                                         {
                                             @if (currentRoleName == "Admin" || currentRoleName == "ProjectManager")
                                             {
-                                                <td><a asp-asp-controller="tickets" asp-action="assigndev" asp-route-id="@ticket.Id" class="btn btn-sm btn-outline-warning">Unassigned</a></td>
+                                                <td><a asp-controller="tickets" asp-action="assigndev" asp-route-id="@ticket.Id" class="btn btn-sm btn-outline-warning">Unassigned</a></td>
                                             }
                                             else
                                             {
