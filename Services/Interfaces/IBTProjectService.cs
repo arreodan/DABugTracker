@@ -26,5 +26,6 @@ namespace DABugTracker.Services.Interfaces
         Task AddMembersToProjectAsync(int projectId, int companyId, IEnumerable<string> selectedIds);
 
         Task<List<Project>> GetEveryProjectByCompanyIdAsync(int companyId);
+        Task<IEnumerable<Project>> GetRecentProjectsAsync(int companyId);
     }
 }

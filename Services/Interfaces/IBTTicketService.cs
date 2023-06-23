@@ -24,5 +24,7 @@ namespace DABugTracker.Services.Interfaces
         Task AddTicketCommentAsync(TicketComment comment);
 
         Task<List<Ticket>> GetEveryTicketByCompanyIdAsync(int companyId);
+        Task<IEnumerable<Ticket>> GetRecentTicketsAsync(int companyId);
+
     }
 }

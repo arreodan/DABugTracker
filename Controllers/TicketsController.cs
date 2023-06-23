@@ -187,7 +187,7 @@ namespace DABugTracker.Controllers
                 ticket.SubmitterUserId = userId;
 
                 await _ticketService.AddTicketAsync(ticket);
-                await _ticketHistory.AddHistoryAsync(null, ticket, userId!);
+                await _ticketHistory.AddHistoryAsync(null!, ticket, userId!);
 
                 return RedirectToAction(nameof(AllTickets));
             }
@@ -277,7 +277,7 @@ namespace DABugTracker.Controllers
                     ticket = (await _ticketService.GetTicketByIdAsync(ticket.Id, User.Identity!.GetCompanyId()))!;
 
 
-                    await _ticketHistory.AddHistoryAsync(oldTicket, ticket, _userManager.GetUserId(User)!);
+                    await _ticketHistory.AddHistoryAsync(oldTicket!, ticket, _userManager.GetUserId(User)!);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -327,8 +327,8 @@ namespace DABugTracker.Controllers
         public async Task<IActionResult> ShowFile(int id)
         {
             TicketAttachment ticketAttachment = await _ticketService.GetTicketAttachmentByIdAsync(id);
-            string fileName = ticketAttachment.FileName;
-            byte[] fileData = ticketAttachment.FileData;
+            string fileName = ticketAttachment.FileName!;
+            byte[] fileData = ticketAttachment.FileData!;
             string ext = Path.GetExtension(fileName).Replace(".", "");
 
             Response.Headers.Add("Content-Disposition", $"inline; filename={fileName}");
@@ -348,7 +348,7 @@ namespace DABugTracker.Controllers
 
                 await _ticketService.AddTicketCommentAsync(ticketComment);
 
-                await _ticketHistory.AddHistoryAsync(ticketComment.TicketId, nameof(TicketComment), ticketComment.UserId);
+                await _ticketHistory.AddHistoryAsync(ticketComment.TicketId, nameof(TicketComment), ticketComment.UserId!);
             }
             
                 return RedirectToAction("Details", new { id = ticketComment.TicketId });

@@ -464,14 +464,36 @@ namespace DABugTracker.Services
         {
             try
             {
-                List<Project> project = await _context.Projects
+                List<Project> projects = await _context.Projects
                                       .Where(p => p.CompanyId == companyId)
                                       .Include(p => p.Tickets)
                                       .Include(p => p.ProjectPriority)
                                       .Include(p => p.Members)
                                       .ToListAsync();
 
-                return project;
+                return projects;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task<IEnumerable<Project>> GetRecentProjectsAsync(int companyId)
+        {
+            try
+            {
+                IEnumerable<Project> projects = await _context.Projects
+                      .Where(p => p.CompanyId == companyId)
+                      .Include(p => p.Tickets)
+                      .Include(p => p.ProjectPriority)
+                      .Include(p => p.Members)
+                      .ToListAsync();
+
+
+
+                return projects.OrderByDescending(p => p.Created).Take(5);
             }
             catch (Exception)
             {

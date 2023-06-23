@@ -8,9 +8,9 @@
 
 
 @{
-    BTUser appUser = await UserManager.GetUserAsync(User);
+    BTUser? appUser = await UserManager.GetUserAsync(User);
 
-    var roleNames = await _roleService.GetUserRolesAsync(appUser);
+    var roleNames = await _roleService.GetUserRolesAsync(appUser!);
     string? roleName = roleNames.FirstOrDefault(r => r != nameof(BTRoles.DemoUser));
 }
 
@@ -63,7 +63,7 @@
                     <li class="dropdown notification-list topbar-dropdown">
                         <a class="nav-link dropdown-toggle nav-user me-0 waves-effect waves-light" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                             <span class="pro-user-name ms-1">
-                                @appUser.FullName
+                                @appUser!
                             </span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end profile-dropdown ">
