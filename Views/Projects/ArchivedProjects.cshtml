@@ -29,72 +29,77 @@
 
         @foreach (Project project in await _projectService.GetArchivedProjectsByCompanyIdAsync(user!.CompanyId))
         {
-            <div class="col-xl-4 gy-4">
-                <div class="card h-100">
-                    <div class="card-body project-box">
+                <div class="col-xl-4 gy-4">
+                    <div class="card h-100">
+                        <div class="card-body project-box">
                         @if (project.ProjectPriority!.Name == "Low")
                         {
-                            <div class="badge bg-primary float-end">@project.ProjectPriority!.Name</div>
+                                    <div class="badge bg-primary float-end">@project.ProjectPriority!.Name</div>
                         }
                         else if (project.ProjectPriority!.Name == "Medium")
                         {
-                            <div class="badge bg-Success float-end">@project.ProjectPriority!.Name</div>
+                                    <div class="badge bg-Success float-end">@project.ProjectPriority!.Name</div>
                         }
                         else if (project.ProjectPriority!.Name == "High")
                         {
-                            <div class="badge bg-warning float-end">@project.ProjectPriority!.Name</div>
+                                    <div class="badge bg-warning float-end">@project.ProjectPriority!.Name</div>
                         }
                         else if (project.ProjectPriority!.Name == "Urgent")
                         {
-                            <div class="badge bg-danger float-end">@project.ProjectPriority!.Name</div>
+                                    <div class="badge bg-danger float-end">@project.ProjectPriority!.Name</div>
                         }
-                        <h4 class="mt-0"><a asp-action="Details" asp-route-id="@project.Id" class="text-dark">@project.Name</a></h4>
+                            <h4 class="mt-0"><a asp-action="Details" asp-route-id="@project.Id" class="text-dark">@project.Name</a></h4>
 
                         @* PROJECT'S STATUS *@
                         @if (project.Archived == true)
                         {
-                            <p class="badge bg-archived text-uppercase font-13 ">Archived</p>
+                                    <p class="badge bg-archived text-uppercase font-13 ">Archived</p>
                         }
                         else if (@DateTime.Now > project.EndDate)
                         {
-                            <p class="text-danger text-uppercase font-13">Overdue</p>
+                                    <p class="text-danger text-uppercase font-13">Overdue</p>
                         }
                         else
                         {
-                            <p class="text-success text-uppercase font-13">In Progress</p>
+                                    <p class="text-success text-uppercase font-13">In Progress</p>
                         }
                         @*<h5>Archived / In Progress / Overdue</h5>*@
-                        <p class="text-muted font-13">
+                            <p class="text-muted font-13">
                             @project.Description
-                        </p>
-                        <div class="row task-dates mb-0 mt-2">
-                            <div class="col-lg-6">
-                                <h4 class="font-600 m-b-5">Start Date</h4>
-                                <p>@project.StartDate.ToString("dd MMMM yyyy")</p>
+                            </p>
+                            <div class="row task-dates mb-0 mt-2">
+                                <div class="col-lg-6">
+                                    <h4 class="font-600 m-b-5">Start Date</h4>
+                                    <p>@project.StartDate.ToString("dd MMMM yyyy")</p>
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <h4 class="font-600 m-b-5">Due Date</h4>
+                                    <p>@project.EndDate.ToString("dd MMMM yyyy")</p>
+                                </div>
                             </div>
 
-                            <div class="col-lg-6">
-                                <h4 class="font-600 m-b-5">Due Date</h4>
-                                <p>@project.EndDate.ToString("dd MMMM yyyy")</p>
-                            </div>
+                                <ul class="list-inline">
+                                    <li class="list-inline-item me-4">
+                                        <h4 class="mb-0">@project.Tickets.Count</h4>
+                                        <p class="text-muted">Tickets</p>
+                                    </li>
+                                    <li class="list-inline-item">
+                                        <h4 class="mb-0">@project.Members.Count</h4>
+                                        <p class="text-muted">Members</p>
+                                    </li>
+                                </ul>
+                        <div class="d-flex justify-content-end">
+                            <a asp-action="Details" asp-route-id="@project.Id"
+                               class="btn btn-secondary waves-effect">
+                                Details
+                            </a>
                         </div>
-                        <div class="">
-                            <ul class="list-inline">
-                                <li class="list-inline-item me-4">
-                                    <h4 class="mb-0">@project.Tickets.Count</h4>
-                                    <p class="text-muted">Tickets</p>
-                                </li>
-                                <li class="list-inline-item">
-                                    <h4 class="mb-0">@project.Members.Count</h4>
-                                    <p class="text-muted">Members</p>
-                                </li>
-                            </ul>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- end col-->
+                <!-- end col-->
         }
 
     </div>

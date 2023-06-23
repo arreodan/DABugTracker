@@ -1,14 +1,27 @@
-﻿@model IEnumerable<DABugTracker.Models.Ticket>
+﻿@using Microsoft.AspNetCore.Identity;
+@using DABugTracker.Services.Interfaces
+@using DABugTracker.Models.Enums
+@using DABugTracker.Services
+@model IEnumerable<DABugTracker.Models.Ticket>
+
+
+@inject UserManager<BTUser> UserManager
+@inject IBTRolesService _roleService
 
 @{
     ViewData["Title"] = "All Tickets";
+
+    BTUser? user = await UserManager.GetUserAsync(User);
+
+    var currentUserRole = await _roleService.GetUserRolesAsync(user!);
+    string? currentRoleName = currentUserRole.FirstOrDefault(r => r != nameof(BTRoles.DemoUser));
 }
 
 
 <div class="container-fluid">
 
     <div class="row">
-        <h1>All Tickets</h1>
+        <h1>@ViewData["Title"]</h1>
         <p>
             <a asp-action="Create" class="btn btn-purple rounded-pill w-md waves-effect waves-light mb-3"><i class="mdi mdi-plus"></i> Create New</a>
         </p>
@@ -37,7 +50,14 @@
                                         <td>@ticket.SubmitterUser!.FullName</td>
                                         @if (ticket.DeveloperUserId == null)
                                         {
-                                            <td><a asp-asp-controller="tickets" asp-action="assigndev" asp-route-id="@ticket.Id" class="btn btn-sm btn-outline-warning"> Unassigned</a></td>
+                                            @if (currentRoleName == "Admin" || currentRoleName == "ProjectManager")
+                                            {
+                                                <td><a asp-asp-controller="tickets" asp-action="assigndev" asp-route-id="@ticket.Id" class="btn btn-sm btn-outline-warning">Unassigned</a></td>
+                                            }
+                                            else
+                                            {
+                                                <td>Unassigned</td>
+                                            }
                                         }
                                         else
                                         {
