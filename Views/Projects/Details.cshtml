@@ -115,7 +115,7 @@
                                 @foreach (Ticket ticket in await _ticketService.GetTicketsByProjectAsync(Model.CompanyId, Model.Id))
                                 {
                                     <tr>
-                                        <td>@ticket.Title</td>
+                                        <td><a asp-controller="tickets" asp-action="details" asp-route-id="@ticket.Id">@ticket.Title</a></td>
                                         <td>@ticket.Created.ToString("dd MMMM yyyy")</td>
                                         <td>@ticket.SubmitterUser!.FullName</td>
                                         @if (ticket.DeveloperUserId == null)

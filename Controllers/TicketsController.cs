@@ -189,7 +189,7 @@ namespace DABugTracker.Controllers
                 await _ticketService.AddTicketAsync(ticket);
                 await _ticketHistory.AddHistoryAsync(null!, ticket, userId!);
 
-                return RedirectToAction(nameof(AllTickets));
+                return RedirectToAction("Details", new { ticket!.Id });
             }
 
             ViewData["ProjectId"] = new SelectList(await _ticketService.GetTicketsByCompanyIdAsync(User.Identity!.GetCompanyId()), "Id", "Name", ticket.ProjectId);

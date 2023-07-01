@@ -216,7 +216,8 @@
                             <div class="d-flex mb-3 member-card">
                                 <div class="flex-grow-1">
                                     <h5 class="mt-0">@comment.User!.FullName</h5>
-                                    <a href="" class="text-primary font-13">@comment.User.Email</a>
+                                    <h5><a href="" class="text-primary font-13">@comment.User.Email</a></h5>
+                                    <h6 class="float-end">@comment.Created.ToString("dd MMMM yyyy")<small class="text-muted">@comment.Created.ToString("h:mm tt")</small></h6>
                                     <h3 class="font-13 mb-0">
                                         <strong>@comment.Comment</strong>
                                     </h3>
@@ -263,6 +264,7 @@
                                     <h3 class="font-13 mb-0">
                                         <strong>@history.Description</strong>
                                     </h3>
+                                    <h6 class="float-end">@history.Created.ToString("dd MMMM yyyy")<small class="text-muted">@history.Created.ToString("h:mm tt")</small></h6>
                                 </div>
                             </div>
                         }
