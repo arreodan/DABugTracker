@@ -191,11 +191,6 @@ namespace DABugTracker.Controllers
 
 
 
-
-
-
-
-
         public async Task<IActionResult> ArchivedProjects()// tested 
         {
             int companyId = User.Identity!.GetCompanyId();
@@ -341,7 +336,7 @@ namespace DABugTracker.Controllers
         // GET: Projects/Delete/5
         [Authorize(Roles = $"{nameof(BTRoles.Admin)}, {nameof(BTRoles.ProjectManager)}")]
         public async Task<IActionResult> Archive(int? id)// tested
-        {
+         {
             if (id == null)
             {
                 return NotFound();
@@ -370,7 +365,22 @@ namespace DABugTracker.Controllers
             {
                 await _projectService.ArchiveProjectAsync(project, User.Identity!.GetCompanyId());
             }
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Details", new { project!.Id });
+        }
+        
+        // POST: Projects/Delete/5
+        [HttpPost, ActionName("Restore")]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = $"{nameof(BTRoles.Admin)}, {nameof(BTRoles.ProjectManager)}")]
+        public async Task<IActionResult> Restore(int id) // tested
+        {
+            Project? project = await _projectService.GetProjectByIdAsync(id, User.Identity!.GetCompanyId());
+
+            if (project != null)
+            {
+                await _projectService.RestoreProjectAsync(project, User.Identity!.GetCompanyId());
+            }
+            return RedirectToAction("Details", new { project!.Id });
         }
 
 

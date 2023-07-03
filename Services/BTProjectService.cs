@@ -62,6 +62,32 @@ namespace DABugTracker.Services
             }
         }
 
+        public async Task RestoreProjectAsync(Project project, int companyId)
+        {
+            try
+            {
+                if (project.CompanyId == companyId)
+                {
+                    project.Archived = false;
+
+                    foreach (Ticket ticket in project.Tickets)
+                    {
+                        if (ticket.ArchivedByProject == true) ticket.Archived = false;
+
+                        ticket.ArchivedByProject = false;
+                    }
+
+                    _context.Update(project);
+                    await _context.SaveChangesAsync();
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
         public async Task<List<Project>> GetAllProjectsByCompanyIdAsync(int companyId)
         {
             try
@@ -188,32 +214,6 @@ namespace DABugTracker.Services
             try
             {
                 return await _context.ProjectPriorities.ToListAsync();
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-        }
-
-        public async Task RestoreProjectAsync(Project project, int companyId)
-        {
-            try
-            {
-                if (project.CompanyId == companyId)
-                {
-                    project.Archived = false;
-
-                    foreach (Ticket ticket in project.Tickets)
-                    {
-                        if (ticket.ArchivedByProject == true) ticket.Archived = false;
-
-                        ticket.ArchivedByProject = false;
-                    }
-
-                    _context.Update(project);
-                    await _context.SaveChangesAsync();
-                }
             }
             catch (Exception)
             {

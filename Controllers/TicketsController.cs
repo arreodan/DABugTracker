@@ -323,6 +323,18 @@ namespace DABugTracker.Controllers
             }
             return RedirectToAction("Details", new { ticket!.Id });
         }
+        
+        [HttpPost, ActionName("Restore")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RestoreConfirmed(int id) // tested
+        {
+            Ticket? ticket = await _ticketService.GetTicketByIdAsync(id, User.Identity!.GetCompanyId());
+            if (ticket != null)
+            {
+                await _ticketService.RestoreTicketAsync(ticket, User.Identity!.GetCompanyId());
+            }
+            return RedirectToAction("Details", new { ticket!.Id });
+        }
 
         public async Task<IActionResult> ShowFile(int id)
         {

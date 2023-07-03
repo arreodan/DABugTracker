@@ -130,14 +130,28 @@
                     <div class="attached-files mt-3">
                         <div class="row">
                             <div class="col-sm-12">
-                                <div class="text-end">
-                                    <a asp-controller="tickets" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-success waves-effect waves-light me-1">
-                                        Edit
-                                    </a>
-                                    <a asp-controller="tickets" asp-action="Archive" asp-route-id="@Model.Id"
-                                       class="btn btn-light waves-effect">
-                                        Archive / Unarchive
-                                    </a>
+                                <div class="text-end d-flex justify-content-end">
+                                    @if (currentRoleName == "Admin" || currentRoleName == "ProjectManager")
+                                    {
+                                        <a asp-controller="tickets" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-success waves-effect waves-light me-1">
+                                            Edit
+                                        </a>
+
+                                        @if(Model.Archived == false)
+                                        {
+                                            <form asp-action="Archive" class="">
+                                                <input type="hidden" asp-for="Id" />
+                                                <input type="submit" value="Archive" class="btn btn-outline-danger waves-effect" />
+                                            </form>
+                                        }
+                                        else
+                                            {
+                                            <form asp-action="Restore">
+                                                    <input type="hidden" asp-for="Id" />
+                                                <input type="submit" value="Restore" class="btn btn-soft-purple waves-effect" />
+                                                </form>
+                                            }
+                                    }
                                 </div>
                             </div>
                         </div>

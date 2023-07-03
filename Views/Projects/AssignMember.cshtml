@@ -3,18 +3,26 @@
 @{
     ViewData["Title"] = "Assign Project Members";
 }
-<div class="d-flex justify-content-center mt-5 flex-column align-items-center">
-    <h3 class="my-5">Assign Project Manager</h3>
+<div class="d-flex justify-content-center mt-5 flex-column align-items-center text-center">
     <div class="card">
         <div class="card-header">
+    <h3 class="">Assign Project Members</h3>
             <div class="card-title">@Model.Name</div>
         </div>
         <div class="card-body">
             <form asp-action="AssignMember" method="post" class="d-flex flex-column">
                 <input type="hidden" asp-for="Id" />
+                <div class="row">
+                    <div class="col-6">
+                        <h3 class="">Developers</h3>
+                        <select class="form-control tom-select" name="SelectedDev" asp-items="ViewBag.DeveloperUserId" multiple></select>
+                    </div>
+                    <div class="col-6">
+                        <h3 class="">Submitters</h3>
+                        <select class="form-control tom-select" name="SelectedSub" asp-items="ViewBag.SubmitterUserId" multiple></select>
+                    </div>
+                </div>
 
-                <select name="SelectedDev" asp-items="ViewBag.DeveloperUserId" multiple></select>
-                <select name="SelectedSub" asp-items="ViewBag.SubmitterUserId" multiple></select>
                 <button type="submit" class="btn btn-primary my-3">Save</button>
                 <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-secondary">Cancel</a>
             </form>
