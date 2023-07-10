@@ -4,14 +4,14 @@
     ViewData["Title"] = "Assign Developer";
 }
 <div class="d-flex justify-content-center mt-5 flex-column align-items-center">
-    <h3 class="my-5">Assign a Developer</h3>
     <div class="card">
         <div class="card-header">
+    <h3 class="">Assign a Developer</h3>
             <div class="card-title">@Model.Ticket!.Title</div>
         </div>
         <div class="card-body">
             <form asp-action="AssignDev" method="post" class="d-flex flex-column">
-                <input type="hidden" asp-for="Ticket!.Id" />
+                <input class="form-control tom-select" type="hidden" asp-for="Ticket!.Id" />
 
                 <select asp-items="Model.DevList" asp-for="DevId">
                     <option value="">Unassigned</option>

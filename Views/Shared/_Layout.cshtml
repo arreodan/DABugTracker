@@ -4,6 +4,7 @@
 
 @inject SignInManager<BTUser> SignInManager
 @inject UserManager<BTUser> UserManager
+@inject IBTRolesService _roleService;
 @inject IBTRolesService _roleService
 
 
@@ -19,7 +20,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - DABugTracker</title>
+    <title>@ViewData["Title"] - BugSense</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/DABugTracker.styles.css" asp-append-version="true" />
@@ -38,6 +39,9 @@
     <!-- icons -->
     <link href="~/css/icons.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="~/images/BugSenseIcon.png" type="image/x-icon" />
 </head>
 <!-- body start -->
 <body data-layout-color="light" data-layout-mode="default" data-layout-size="fluid" data-topbar-color="light" data-leftbar-position="fixed" data-leftbar-color="light" data-leftbar-size='default' data-sidebar-user='true'>
@@ -184,14 +188,19 @@
                             </li>
 
                             <li class="menu-title mt-2">Projects</li>
+                            @if (roleName == "Admin")
+                            {
 
-                            <li>
-                                <a asp-controller="Projects" asp-action="MyProjects">
-                                    <i class="mdi mdi-forum-outline"></i>
-                                    <span> My Projects </span>
-                                </a>
-                            </li>
-
+                            }
+                            else
+                            {
+                                <li>
+                                    <a asp-controller="Projects" asp-action="MyProjects">
+                                        <i class="mdi mdi-forum-outline"></i>
+                                        <span> My Projects </span>
+                                    </a>
+                                </li>
+                            }
                             <li>
                                 <a asp-controller="Projects" asp-action="Index">
                                     <i class="mdi mdi-forum-outline"></i>
@@ -222,13 +231,19 @@
                                     <span> All Tickets </span>
                                 </a>
                             </li>
+                            @if (roleName == "Admin")
+                            {
 
+                            }
+                            else
+                            {
                             <li>
                                 <a asp-controller="Tickets" asp-action="MyTickets">
                                     <i class="mdi mdi-forum-outline"></i>
                                     <span> My Tickets </span>
                                 </a>
                             </li>
+                            }
 
                             <li>
                                 <a asp-controller="Tickets" asp-action="ArchivedTickets">
@@ -243,7 +258,8 @@
                                     <span> Unassigned Tickets </span>
                                 </a>
                             </li>
-
+                            @if (roleName == "Admin")
+                            {
                             <li class="menu-title mt-2">Company</li>
 
                             <li>
@@ -258,6 +274,7 @@
                                     <span> Invite Users </span>
                                 </a>
                             </li>
+                            }
 
                         </ul>
                     </div>

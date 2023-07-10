@@ -7,14 +7,14 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>Adminto - Responsive Bootstrap 4 Landing Page Template</title>
+    <title>BugSense</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
     <meta content="Coderthemes" name="author" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
-    <!-- App favicon -->
-    <link rel="shortcut icon" href="images/favicon.ico">
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="~/images/BugSenseIcon.png" type="image/x-icon" />
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="~/css/bootstrap.min.css" type="text/css">
@@ -25,15 +25,19 @@
     <!--pe-7 Icon -->
     <link rel="stylesheet" type="text/css" href="~/css/pe-icon-7-stroke.css" />
 
-    <!-- Custom  sCss -->
+    <!-- Custom  Css -->
     <link rel="stylesheet" type="text/css" href="~/css/style.css" />
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+    <link href="~/css/icons.css" rel="stylesheet" type="text/css" />
 
 </head>
 
 <body data-bs-spy="scroll" data-bs-target=".navbar" data-bs-offset="58" class="scrollspy-example">
 
     <!--Navbar Start-->
-    <nav class="navbar navbar-expand-lg fixed-top navbar-custom sticky sticky-dark" id="nav-sticky">
+    <nav class="nav-bg navbar navbar-expand-lg fixed-top navbar-custom sticky sticky-dark" id="nav-sticky">
         <div class="container-fluid">
             <!-- LOGO -->
             <a class="logo text-uppercase" asp-controller="home" asp-action="index">
@@ -64,7 +68,7 @@
                                 <h2 class="mb-4 text-white">Setup your Company with BugSense</h2>
                                 <p class="text-white-50 home-desc font-16 mb-5">Tired of struggling to keep track of software bugs and issues? Look no further! BugSense is the ultimate bug tracker app designed to revolutionize your development workflow. </p>
                                 <div class="watch-video mt-5">
-                                    <a asp-controller="projects" class="btn btn-custom me-4">Get Started <i class="bi bi-chevron-right"></i></a>
+                                    <a asp-controller="projects" class="btn btn-custom me-4">Get Started <i class="mdi mdi-chevron-right ms-1"></i></a>
                                 </div>
 
                             </div>
@@ -197,23 +201,14 @@
                 <div class="col-xl-12">
                     <div class="text-center">
                         <div class="footer-logo mb-3">
-                            <img src="images/logo-light.png" alt="" height="20">
+                            <img src="~/images/BugSenseLogoTransparent.png" alt="" height="70">
                         </div>
-                        <ul class="list-inline footer-list text-center mt-5">
-                            <li class="list-inline-item"><a href="#">Home</a></li>
-                            <li class="list-inline-item"><a href="#">About</a></li>
-                            <li class="list-inline-item"><a href="#">Services</a></li>
-                            <li class="list-inline-item"><a href="#">Clients</a></li>
-                            <li class="list-inline-item"><a href="#">Pricing</a></li>
-                            <li class="list-inline-item"><a href="#">Contact</a></li>
-                        </ul>
                         <ul class="list-inline social-links mb-4 mt-5">
-                            <li class="list-inline-item"><a href="#"><i class="mdi mdi-facebook"></i></a></li>
-                            <li class="list-inline-item"><a href="#"><i class="mdi mdi-twitter"></i></a></li>
-                            <li class="list-inline-item"><a href="#"><i class="mdi mdi-instagram"></i></a></li>
-                            <li class="list-inline-item"><a href="#"><i class="mdi mdi-google-plus"></i></a></li>
+                            <li class="list-inline-item"><a href="https://linkedin.com/in/arreoda/"><i class="mdi mdi-linkedin"></i></a></li>
+                            <li class="list-inline-item"><a href="https://github.com/arreodan/"><i class="mdi mdi-github"></i></a></li>
+                            <li class="list-inline-item"><a href="https://danielarreola.dev"><i class="mdi mdi-web"></i></a></li>
                         </ul>
-                        <p class="text-white-50 mb-4">2016 - 2020 © Adminto. Design by <a href="#" target="_blank" class="text-white-50">Coderthemes</a> </p>
+                        <a href="https://danielarreola.dev" target="_blank" class="text-white-50"><p class="text-white-50 mb-4">@DateTime.Now.Year © BugSense Design by Daniel Arreola </p></a>
 
                     </div>
                 </div>
@@ -223,9 +218,6 @@
         </div>
     </footer>
     <!-- footer end -->
-    <!-- Back to top -->
-    <a href="#" class="back-to-top" id="back-to-top"> <i class="mdi mdi-chevron-up"> </i> </a>
-
     <!-- javascript -->
     <script src="~/js/bootstrap.bundle.min.js"></script>
     <!-- counter js -->

@@ -127,6 +127,7 @@ namespace DABugTracker.Controllers
                 {
                     ticket.DeveloperUserId = viewModel.DevId;
                     await _ticketService.UpdateTicketAsync(ticket, User.Identity!.GetCompanyId());
+                    await _ticketHistory.AddHistoryAsync(ticket.Id, "Developer Assigned", _userManager.GetUserId(User)!);
                     return RedirectToAction(nameof(Details), new { id = viewModel.Ticket.Id });
                 }
 
@@ -320,6 +321,8 @@ namespace DABugTracker.Controllers
             if (ticket != null)
             {
                 await _ticketService.ArchiveTicketAsync(ticket, User.Identity!.GetCompanyId());
+
+                await _ticketHistory.AddHistoryAsync(id, "Ticket Archived", _userManager.GetUserId(User)!);
             }
             return RedirectToAction("Details", new { ticket!.Id });
         }
@@ -332,6 +335,8 @@ namespace DABugTracker.Controllers
             if (ticket != null)
             {
                 await _ticketService.RestoreTicketAsync(ticket, User.Identity!.GetCompanyId());
+                
+                await _ticketHistory.AddHistoryAsync(id, "Ticket Restored", _userManager.GetUserId(User)!);
             }
             return RedirectToAction("Details", new { ticket!.Id });
         }
