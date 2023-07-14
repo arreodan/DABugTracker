@@ -178,16 +178,22 @@
 
 
 
-                            <li class="menu-title">Navigation</li>
-
                             <li>
                                 <a asp-controller="Home" asp-action="Dashboard">
-                                    <i class="mdi mdi-view-dashboard-outline"></i>
+                                    <i class="far fa-chart-bar"></i>
                                     <span> Dashboard </span>
                                 </a>
                             </li>
 
                             <li class="menu-title mt-2">Projects</li>
+
+                            <li>
+                                <a asp-controller="Projects" asp-action="Index">
+                                    <i class="fas fa-project-diagram"></i>
+                                    <span> All Projects </span>
+                                </a>
+                            </li>
+
                             @if (roleName == "Admin")
                             {
 
@@ -196,28 +202,22 @@
                             {
                                 <li>
                                     <a asp-controller="Projects" asp-action="MyProjects">
-                                        <i class="mdi mdi-forum-outline"></i>
+                                        <i class="mdi mdi-briefcase-variant-outline"></i>
                                         <span> My Projects </span>
                                     </a>
                                 </li>
                             }
-                            <li>
-                                <a asp-controller="Projects" asp-action="Index">
-                                    <i class="mdi mdi-forum-outline"></i>
-                                    <span> All Projects </span>
-                                </a>
-                            </li>
 
                             <li>
                                 <a asp-controller="Projects" asp-action="ArchivedProjects">
-                                    <i class="mdi mdi-forum-outline"></i>
+                                    <i class="dripicons-archive"></i>
                                     <span> Archived Projects </span>
                                 </a>
                             </li>
 
                             <li>
                                 <a asp-controller="Projects" asp-action="UnassignedProjects">
-                                    <i class="mdi mdi-forum-outline"></i>
+                                    <i class="fas fa-unlink"></i>
                                     <span> Unassigned Projects </span>
                                 </a>
                             </li>
@@ -227,7 +227,7 @@
 
                             <li>
                                 <a asp-controller="Tickets" asp-action="AllTickets">
-                                    <i class="mdi mdi-calendar-blank-outline"></i>
+                                    <i class="fas fa-project-diagram"></i>
                                     <span> All Tickets </span>
                                 </a>
                             </li>
@@ -239,7 +239,7 @@
                             {
                             <li>
                                 <a asp-controller="Tickets" asp-action="MyTickets">
-                                    <i class="mdi mdi-forum-outline"></i>
+                                    <i class="mdi mdi-briefcase-variant-outline"></i>
                                     <span> My Tickets </span>
                                 </a>
                             </li>
@@ -247,14 +247,14 @@
 
                             <li>
                                 <a asp-controller="Tickets" asp-action="ArchivedTickets">
-                                    <i class="mdi mdi-forum-outline"></i>
+                                    <i class="dripicons-archive"></i>
                                     <span> Archived Tickets </span>
                                 </a>
                             </li>
 
                             <li>
                                 <a asp-controller="Tickets" asp-action="UnassignedTickets">
-                                    <i class="mdi mdi-forum-outline"></i>
+                                    <i class="fas fa-unlink"></i>
                                     <span> Unassigned Tickets </span>
                                 </a>
                             </li>
@@ -264,13 +264,13 @@
 
                             <li>
                                 <a asp-controller="Company" asp-action="ManageUserRoles">
-                                    <i class="mdi mdi-forum-outline"></i>
+                                        <i class="fas fa-user-cog"></i>
                                     <span> Manage Users </span>
                                 </a>
                             </li>
                             <li>
                                 <a asp-controller="invites" asp-action="create">
-                                    <i class="mdi mdi-forum-outline"></i>
+                                        <i class="fas fa-user-plus"></i>
                                     <span> Invite Users </span>
                                 </a>
                             </li>
